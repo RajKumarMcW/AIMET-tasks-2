@@ -1,0 +1,1 @@
+python src/quant.py --config config/ptq_5x64x2048.json

@@ -1,0 +1,151 @@
+Issue:
+
+Traceback (most recent call last):
+  File "src/infer.py", line 118, in <module>
+    user = User(ARCH, DATA, FLAGS.dataset, FLAGS.log, FLAGS.model,FLAGS.config)
+  File "/home/ava/raj/lidar-bonnetal/train/src/modules/user.py", line 88, in __init__
+    self.model = prepare_model(self.model)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/model_preparer.py", line 308, in prepare_model
+    symbolic_traced_model = _trace_model(model, modules_to_exclude, concrete_args)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/model_preparer.py", line 339, in _trace_model
+    graph = tracer.trace(model, concrete_args=concrete_args)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/torch/fx/symbolic_trace.py", line 571, in trace
+    self.create_node('output', 'output', (self.create_arg(fn(*args)),), {},
+  File "/home/ava/raj/lidar-bonnetal/train/src/modules/segmentator.py", line 149, in forward
+    y, skips = self.backbone(x)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/torch/fx/symbolic_trace.py", line 560, in module_call_wrapper
+    return self.call_module(mod, forward, args, kwargs)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/torch/fx/symbolic_trace.py", line 391, in call_module
+    return forward(*args, **kwargs)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/torch/fx/symbolic_trace.py", line 556, in forward
+    return _orig_module_call(mod, *args, **kwargs)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1051, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "src/backbones/squeezeseg.py", line 145, in forward
+    x, skips, os = self.run_layer1(x, self.fire23, skips, os)
+  File "src/backbones/squeezeseg.py", line 118, in run_layer1
+    if y.shape[3] < x.shape[3]:
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/torch/fx/proxy.py", line 199, in __bool__
+    return self.tracer.to_bool(self)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/torch/fx/proxy.py", line 129, in to_bool
+    raise TraceError('symbolically traced variables cannot be used as inputs to control flow')
+torch.fx.proxy.TraceError: symbolically traced variables cannot be used as inputs to control flow
+
+soln:
+
+created two function for if condition.
+def run_layer1(self, x, layer, skips, os):
+    y = layer(x)
+    skips[os] = x.detach()
+    os *= 2
+    x = y
+    return x, skips, os
+
+def run_layer2(self, x, layer, skips, os):
+    y = layer(x)
+    x = y
+    return x, skips, os
+
+Issue:
+
+Traceback (most recent call last):
+  File "src/infer.py", line 118, in <module>
+    user = User(ARCH, DATA, FLAGS.dataset, FLAGS.log, FLAGS.model,FLAGS.config)
+  File "/home/ava/raj/lidar-bonnetal/train/src/modules/user.py", line 109, in __init__
+    self.model = Adaround.apply_adaround(self.model,
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/adaround/adaround_weight.py", line 155, in apply_adaround
+    cls._adaround_model(model, quant_sim, module_act_func_pair, params, dummy_input)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/adaround/adaround_weight.py", line 203, in _adaround_model
+    AdaroundOptimizer.adaround_module(module, quant_wrapper, model, quant_sim.model, act_func,
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/adaround/adaround_optimizer.py", line 92, in adaround_module
+    inp_data, out_data = act_sampler.sample_acts(model_inputs)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/adaround/activation_sampler.py", line 116, in sample_acts
+    inp_data, _ = self._quant_module_collector.collect_inp_out_data(model_inputs,
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/utils.py", line 128, in collect_inp_out_data
+    model_input = change_tensor_device_placement(model_input, device)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/utils.py", line 605, in change_tensor_device_placement
+    tensor_data[index] = change_tensor_device_placement(item, device=device)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/utils.py", line 605, in change_tensor_device_placement
+    tensor_data[index] = change_tensor_device_placement(item, device=device)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/utils.py", line 585, in change_tensor_device_placement
+    assert isinstance(tensor_data, (torch.Tensor, list, tuple))
+AssertionError
+
+soln:
+
+added str also in the isinstance()
+def change_tensor_device_placement(tensor_data: Union[torch.tensor, List, Tuple], device: torch.device):
+    assert isinstance(tensor_data, (torch.Tensor, list, tuple,str))
+
+    if isinstance(tensor_data, torch.Tensor):
+        tensor_data = tensor_data.to(device=device)
+
+    elif isinstance(tensor_data, tuple):
+        # convert to list first
+        tensor_data = list(tensor_data)
+        # call the function recursively
+        tensor_data = change_tensor_device_placement(tensor_data, device)
+        # convert back to tuple
+        tensor_data = tuple(tensor_data)
+    
+    elif isinstance(tensor_data, str):
+        tensor_data=tensor_data
+
+    else:
+        for index, item in enumerate(tensor_data):
+            tensor_data[index] = change_tensor_device_placement(item, device=device)
+
+    return tensor_data
+
+Issue:
+
+Traceback (most recent call last):
+  File "src/infer.py", line 118, in <module>
+    user = User(ARCH, DATA, FLAGS.dataset, FLAGS.log, FLAGS.model,FLAGS.config)
+  File "/home/ava/raj/lidar-bonnetal/train/src/modules/user.py", line 109, in __init__
+    self.model = Adaround.apply_adaround(self.model,
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/adaround/adaround_weight.py", line 155, in apply_adaround
+    cls._adaround_model(model, quant_sim, module_act_func_pair, params, dummy_input)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/adaround/adaround_weight.py", line 203, in _adaround_model
+    AdaroundOptimizer.adaround_module(module, quant_wrapper, model, quant_sim.model, act_func,
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/adaround/adaround_optimizer.py", line 92, in adaround_module
+    inp_data, out_data = act_sampler.sample_acts(model_inputs)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/adaround/activation_sampler.py", line 116, in sample_acts
+    inp_data, _ = self._quant_module_collector.collect_inp_out_data(model_inputs,
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/utils.py", line 133, in collect_inp_out_data
+    _ = self._forward_fn(self._model, model_input)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/utils.py", line 165, in default_forward_fn
+    inputs,_= inputs
+ValueError: too many values to unpack (expected 2)
+
+soln:
+
+    File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/utils.py", line 165, in default_forward_fn
+        inputs=inputs[0]
+
+Issue:
+
+Traceback (most recent call last):
+  File "src/infer.py", line 118, in <module>
+    user = User(ARCH, DATA, FLAGS.dataset, FLAGS.log, FLAGS.model,FLAGS.config)
+  File "/home/ava/raj/lidar-bonnetal/train/src/modules/user.py", line 109, in __init__
+    self.model = Adaround.apply_adaround(self.model,
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/adaround/adaround_weight.py", line 155, in apply_adaround
+    cls._adaround_model(model, quant_sim, module_act_func_pair, params, dummy_input)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/adaround/adaround_weight.py", line 203, in _adaround_model
+    AdaroundOptimizer.adaround_module(module, quant_wrapper, model, quant_sim.model, act_func,
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/adaround/adaround_optimizer.py", line 99, in adaround_module
+    cls._optimize_rounding(module, quant_module, orig_model, quant_model, act_func, cached_dataset, forward_fn,
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/adaround/adaround_optimizer.py", line 177, in _optimize_rounding
+    total_loss.backward()
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/torch/_tensor.py", line 255, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph, inputs=inputs)
+  File "/home/ava/raj/envv/lib/python3.8/site-packages/torch/autograd/__init__.py", line 147, in backward
+    Variable._execution_engine.run_backward(
+RuntimeError: element 0 of tensors does not require grad and does not have a grad_fn
+
+soln:
+
+    File "/home/ava/raj/envv/lib/python3.8/site-packages/aimet_torch/adaround/adaround_optimizer.py", line 177, in _optimize_rounding
+        total_loss.require_grad=True
+        total_loss.backward()
