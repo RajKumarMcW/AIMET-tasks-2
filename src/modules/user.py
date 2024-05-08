@@ -12,13 +12,13 @@ import json
 import time
 from PIL import Image
 import __init__ as booger
-import collections
-import copy
-import cv2
+import sys
 import os
 import numpy as np
 
 from modules.segmentator import *
+# from modules.ioueval import iouEval
+from common.laserscan import SemLaserScan
 from modules.trainer import *
 from postproc.KNN import KNN
 
@@ -28,20 +28,20 @@ from aimet_torch.cross_layer_equalization import equalize_model
 from aimet_torch.adaround.adaround_weight import Adaround, AdaroundParameters
 from aimet_torch.batch_norm_fold import fold_all_batch_norms
 from aimet_torch.auto_quant import AutoQuant
-from aimet_common.defs import QuantScheme 
+from aimet_torch.model_validator.model_validator import ModelValidator
+from aimet_common.defs import QuantScheme
 import aimet_torch
 
 
 
 class User():
-  def __init__(self, ARCH, DATA, datadir, logdir, modeldir,cfg,quantized=False):
+  def __init__(self, ARCH, DATA, datadir, logdir, modeldir,cfg):
     # parameters
     self.ARCH = ARCH
     self.DATA = DATA
     self.datadir = datadir
     self.logdir = logdir
     self.modeldir = modeldir
-    self.quantized=quantized
     self.cfg=cfg
     
     # get the data
@@ -77,7 +77,6 @@ class User():
                                self.parser.get_n_classes(),
                                self.modeldir)
       self.model_single = self.model
-      # self.device = torch.device("cpu")
       self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
       print("Infering in device: ", self.device)
       if torch.cuda.is_available() and torch.cuda.device_count() > 0:
@@ -86,89 +85,97 @@ class User():
         self.gpu = True
         self.model.cuda()
 
-      if self.quantized:
-          if os.path.exists(self.cfg):
-            with open(self.cfg) as f_in:
-                self.cfg = json.load(f_in)
-          self.input_shape=self.cfg['input_shape']
-          self.dummy_input = torch.rand(self.input_shape, device=self.device)
+    self.input_shape=self.cfg['input_shape']
+    self.dummy_input = torch.rand(self.input_shape, device=self.device)
 
-          from aimet_torch.model_validator.model_validator import ModelValidator
-          ModelValidator.validate_model(self.model, model_input=self.dummy_input)
-          self.model = prepare_model(self.model)
-          ModelValidator.validate_model(self.model, model_input=self.dummy_input)
-
-          
-          if "cle" in self.cfg["optimization_config"]["quantization_configuration"]["techniques"]:
-            print("CLE...........")
-            self.input_shape=(1,5,64,2048)
-            equalize_model(self.model, self.input_shape)
-              
-          if "bn" in self.cfg["optimization_config"]["quantization_configuration"]["techniques"]:
-            print("BN...........")
-            fold_all_batch_norms(self.model, self.input_shape)
-          
-          dataloader=self.parser.get_train_set()
-          if "adaround" in self.cfg["optimization_config"]["quantization_configuration"]["techniques"]:
-                print("Adaround...........")
-                
-                params = AdaroundParameters(data_loader=dataloader, num_batches=1,default_num_iterations=1)
-                
-                self.model = Adaround.apply_adaround(self.model,
-                                                    self.dummy_input,
-                                                    params,
-                                                    path=self.cfg['exports_path'],
-                                                    filename_prefix='Adaround',
-                                                    default_param_bw=8,
-                                                    default_quant_scheme="tf_enhanced")
-               
-          kwargs = {
-              "quant_scheme": QuantScheme.training_range_learning_with_tf_init,
-              "default_param_bw": self.cfg["optimization_config"][
-                  "quantization_configuration"
-              ]["param_bw"],
-              "default_output_bw": self.cfg["optimization_config"][
-                  "quantization_configuration"
-              ]["output_bw"], 
-              "dummy_input": self.dummy_input,
-          }
-          print("QuantizationSIM")
-          sim = QuantizationSimModel(self.model, **kwargs)
-          if "adaround" in self.cfg["optimization_config"]["quantization_configuration"]["techniques"]:
-              sim.set_and_freeze_param_encodings(encoding_path=self.cfg['exports_path']+'/Adaround.encodings')
-              print("set_and_freeze_param_encodings finished!") 
-          sim.compute_encodings(self.infer_subset, forward_pass_callback_args=self.parser.get_valid_set())
-          self.model=sim.model
-          self.sim=sim
-          sim.export(path=self.cfg['exports_path'], filename_prefix=self.cfg['exports_name'], dummy_input=self.dummy_input.cpu(),onnx_export_args=(aimet_torch.onnx_utils.OnnxExportApiArgs (opset_version=11)))
-        
-      self.model.eval()
     
+  #McW
+  def ptq(self):
+    print("\nModel Validate 1")
+    ModelValidator.validate_model(self.model, model_input=self.dummy_input)
+    print("\nPrepare Model")
+    self.model = prepare_model(self.model)
+    print("\nModel Validate 2")
+    ModelValidator.validate_model(self.model, model_input=self.dummy_input)
 
-  
+    
+    if "cle" in self.cfg["optimization_config"]["quantization_configuration"]["techniques"]:
+      print("\nCLE...........")
+      self.input_shape=(1,5,64,2048)
+      equalize_model(self.model, self.input_shape)
+        
+    if "bn" in self.cfg["optimization_config"]["quantization_configuration"]["techniques"]:
+      print("\nBN...........")
+      fold_all_batch_norms(self.model, self.input_shape)
+    
+    dataloader=self.parser.get_valid_set()
+    if "adaround" in self.cfg["optimization_config"]["quantization_configuration"]["techniques"]:
+          print("\nAdaround...........")
+          
+          params = AdaroundParameters(data_loader=dataloader, num_batches=1,default_num_iterations=32)
+          
+          self.model = Adaround.apply_adaround(self.model,
+                                              self.dummy_input,
+                                              params,
+                                              path=self.cfg['exports_path'],
+                                              filename_prefix='Adaround',
+                                              default_param_bw=8,
+                                              default_quant_scheme="tf_enhanced")
+    
+    print("\nQuantizationSIM")      
+    kwargs = {
+        "quant_scheme": QuantScheme.training_range_learning_with_tf_init,
+        "default_param_bw": self.cfg["optimization_config"][
+            "quantization_configuration"
+        ]["param_bw"],
+        "default_output_bw": self.cfg["optimization_config"][
+            "quantization_configuration"
+        ]["output_bw"], 
+        "dummy_input": self.dummy_input,
+    }
+    sim = QuantizationSimModel(self.model, **kwargs)
+    if "adaround" in self.cfg["optimization_config"]["quantization_configuration"]["techniques"]:
+        sim.set_and_freeze_param_encodings(encoding_path=self.cfg['exports_path']+'/Adaround.encodings')
+        print("set_and_freeze_param_encodings finished!")
+
+    print("\nCompute Encoding") 
+    sim.compute_encodings(self.infer_subset, forward_pass_callback_args=self.parser.get_valid_set())
+    self.model=sim.model
+    print("\nPTQ Inference:")
+    self.infer()
+
+    print("\nExporting Model") 
+    sim.export(path=self.cfg['exports_path'], filename_prefix=self.cfg['exports_name'], dummy_input=self.dummy_input.cpu(),onnx_export_args=(aimet_torch.onnx_utils.OnnxExportApiArgs (opset_version=11)))
+    
+    #mcw
+    if self.cfg['qat']:
+        print("\nQAT...........")
+        trainer = Trainer(self.ARCH, self.DATA, self.datadir, "src/log", sim.model)
+        sim.model = trainer.train()
+        self.model= sim.model
+        print("\nQAT Inference:")
+        self.infer()
+
+        print("\nExporting Model")
+        sim.export(path=self.cfg['exports_path'], filename_prefix=self.cfg['qat_name'], dummy_input=self.dummy_input.cpu(),onnx_export_args=(aimet_torch.onnx_utils.OnnxExportApiArgs (opset_version=11)))
+        
+        
 
   def infer(self):
-    # do train set
-    if self.quantized:
-      if self.cfg['qat']:
-        print("QAT...........")
-        trainer = Trainer(self.ARCH, self.DATA, self.datadir, "src/log", self.sim.model)
-        self.sim.model = trainer.train()
-        self.sim.export(path=self.cfg['exports_path'], filename_prefix=self.cfg['qat_name'], dummy_input=self.dummy_input.cpu(),onnx_export_args=(aimet_torch.onnx_utils.OnnxExportApiArgs (opset_version=11)))
-        self.model= self.sim.model
-        
-    self.infer_subset(self.model,loader=self.parser.get_train_set(),
-                      to_orig_fn=self.parser.to_original)
+    
+    # # do train set    
+    # self.infer_subset(self.model,loader=self.parser.get_train_set(),
+    #                   to_orig_fn=self.parser.to_original)
 
     # do valid set
     self.infer_subset(self.model,loader=self.parser.get_valid_set(),
                       to_orig_fn=self.parser.to_original)
-    # do test set
-    self.infer_subset(self.model,loader=self.parser.get_test_set(),
-                      to_orig_fn=self.parser.to_original)
+    # # do test set
+    # self.infer_subset(self.model,loader=self.parser.get_test_set(),
+    #                   to_orig_fn=self.parser.to_original)
 
-    print('Finished Infering')
-
+    print('\nFinished Infering')
+    self.eval()
     return
 
   def infer_subset(self,model, loader, to_orig_fn=None):
@@ -239,4 +246,137 @@ class User():
                             path_seq, "predictions", path_name)
         pred_np.tofile(path)
 
+  #mcw
+  def eval(self):
+    DATA=self.DATA
+    # get number of interest classes, and the label mappings
+    class_strings = DATA["labels"]
+    class_remap = DATA["learning_map"]
+    class_inv_remap = DATA["learning_map_inv"]
+    class_ignore = DATA["learning_ignore"]
+    nr_classes = len(class_inv_remap)
+
+    # make lookup table for mapping
+    maxkey = 0
+    for key, data in class_remap.items():
+      if key > maxkey:
+        maxkey = key
+    # +100 hack making lut bigger just in case there are unknown labels
+    remap_lut = np.zeros((maxkey + 100), dtype=np.int32)
+    for key, data in class_remap.items():
+      try:
+        remap_lut[key] = data
+      except IndexError:
+        print("Wrong key ", key)
+    # print(remap_lut)
+
+    # create evaluator
+    ignore = []
+    for cl, ign in class_ignore.items():
+      if ign:
+        x_cl = int(cl)
+        ignore.append(x_cl)
+        print("Ignoring xentropy class ", x_cl, " in IoU evaluation")
+
+    # create evaluator
+    device = torch.device("cpu")
+    evaluator = iouEval(nr_classes, device, ignore)
+    evaluator.reset()
+
+    # get test set
+    test_sequences = DATA["split"]["valid"]
+    
+    # get scan paths
+    scan_names = []
+    for sequence in test_sequences:
+      sequence = '{0:02d}'.format(int(sequence))
+      scan_paths = os.path.join(self.datadir, "sequences",
+                                str(sequence), "velodyne")
+      # populate the scan names
+      seq_scan_names = [os.path.join(dp, f) for dp, dn, fn in os.walk(
+          os.path.expanduser(scan_paths)) for f in fn if ".bin" in f]
+      seq_scan_names.sort()
+      scan_names.extend(seq_scan_names)
+    # print(scan_names)
+
+    # get label paths
+    label_names = []
+    for sequence in test_sequences:
+      sequence = '{0:02d}'.format(int(sequence))
+      label_paths = os.path.join(self.datadir, "sequences",
+                                str(sequence), "labels")
+      # populate the label names
+    
+      seq_label_names = [os.path.join(dp, f) for dp, dn, fn in os.walk(
+          os.path.expanduser(label_paths)) for f in fn if ".label" in f]
+      seq_label_names.sort()
+      label_names.extend(seq_label_names)
+    # print(label_names)
+
+    # get predictions paths
+    pred_names = []
+    for sequence in test_sequences:
+      sequence = '{0:02d}'.format(int(sequence))
+      pred_paths = os.path.join(self.logdir, "sequences",
+                                sequence, "predictions")
+      # populate the label names
+      seq_pred_names = [os.path.join(dp, f) for dp, dn, fn in os.walk(
+          os.path.expanduser(pred_paths)) for f in fn if ".label" in f]
+      seq_pred_names.sort()
+      pred_names.extend(seq_pred_names)
+    # print(pred_names)
+
+    # check that I have the same number of files
+    # print("labels: ", len(label_names))
+    # print("predictions: ", len(pred_names))
+    assert(len(label_names) == len(scan_names) and
+          len(label_names) == len(pred_names))
+
+    print("\nEvaluating sequences: ")
+    # open each file, get the tensor, and make the iou comparison
+    for scan_file, label_file, pred_file in zip(scan_names, label_names, pred_names):
+      # print("evaluating label ", label_file, "with", pred_file)
+      # open label
+      label = SemLaserScan(project=False)
+      label.open_scan(scan_file)
+      label.open_label(label_file)
+      u_label_sem = remap_lut[label.sem_label]  # remap to xentropy format
+      
+
+      # open prediction
+      pred = SemLaserScan(project=False)
+      pred.open_scan(scan_file)
+      pred.open_label(pred_file)
+      u_pred_sem = remap_lut[pred.sem_label]  # remap to xentropy format
+      
+
+      # add single scan to evaluation
+      evaluator.addBatch(u_pred_sem, u_label_sem)
+
+    # when I am done, print the evaluation
+    m_accuracy = evaluator.getacc()
+    m_jaccard, class_jaccard = evaluator.getIoU()
+
+    print('Validation set:\n'
+          'Acc avg {m_accuracy:.3f}\n'
+          'IoU avg {m_jaccard:.3f}'.format(m_accuracy=m_accuracy,
+                                          m_jaccard=m_jaccard))
+    # print also classwise
+    for i, jacc in enumerate(class_jaccard):
+      if i not in ignore:
+        print('IoU class {i:} [{class_str:}] = {jacc:.3f}'.format(
+            i=i, class_str=class_strings[class_inv_remap[i]], jacc=jacc))
+
+    # print for spreadsheet
+    print("*" * 80)
+    print("below can be copied straight for paper table")
+    for i, jacc in enumerate(class_jaccard):
+      if i not in ignore:
+        sys.stdout.write('{jacc:.3f}'.format(jacc=jacc.item()))
+        sys.stdout.write(",")
+    sys.stdout.write('{jacc:.3f}'.format(jacc=m_jaccard.item()))
+    sys.stdout.write(",")
+    sys.stdout.write('{acc:.3f}'.format(acc=m_accuracy.item()))
+    sys.stdout.write('\n')
+    sys.stdout.flush()
   

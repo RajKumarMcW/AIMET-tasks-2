@@ -1,0 +1,58 @@
+2024-05-08 23:25:36,825 - root - INFO - AIMET
+{'config': 'config/ptq_5x64x2048.json'}
+Opening arch config file from artifacts/squeezeseg
+Opening data config file from artifacts/squeezeseg
+model folder exists! Using model from artifacts/squeezeseg
+Sequences folder exists! Using sequences from /media/ava/DATA/aleesha/datasets/datasets1/datasets/sequences
+Using 10 scans from sequences [0, 1, 2, 3, 4, 5, 6, 7, 9, 10]
+Sequences folder exists! Using sequences from /media/ava/DATA/aleesha/datasets/datasets1/datasets/sequences
+Using 10 scans from sequences [8]
+Sequences folder exists! Using sequences from /media/ava/DATA/aleesha/datasets/datasets1/datasets/sequences
+Using 10 scans from sequences [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+Using SqueezeNet Backbone
+Depth of backbone input =  5
+Original OS:  16
+New OS:  16
+Strides:  [2, 2, 2, 2]
+Decoder original OS:  16
+Decoder new OS:  16
+Decoder strides:  [2, 2, 2, 2]
+Total number of parameters:  915540
+Total number of parameters requires_grad:  915540
+Param encoder  724032
+Param decoder  179968
+Param head  11540
+Successfully loaded model backbone weights
+Successfully loaded model decoder weights
+Successfully loaded model head weights
+Infering in device:  cuda
+
+Finished Infering
+Ignoring xentropy class  0  in IoU evaluation
+
+Evaluating sequences: 
+Validation set:
+Acc avg 0.724
+IoU avg 0.266
+IoU class 1 [car] = 0.686
+IoU class 2 [bicycle] = 0.002
+IoU class 3 [motorcycle] = 0.000
+IoU class 4 [truck] = 0.000
+IoU class 5 [other-vehicle] = 0.000
+IoU class 6 [person] = 0.246
+IoU class 7 [bicyclist] = 0.000
+IoU class 8 [motorcyclist] = 0.000
+IoU class 9 [road] = 0.889
+IoU class 10 [parking] = 0.003
+IoU class 11 [sidewalk] = 0.589
+IoU class 12 [other-ground] = 0.000
+IoU class 13 [building] = 0.384
+IoU class 14 [fence] = 0.124
+IoU class 15 [vegetation] = 0.665
+IoU class 16 [trunk] = 0.413
+IoU class 17 [terrain] = 0.623
+IoU class 18 [pole] = 0.143
+IoU class 19 [traffic-sign] = 0.291
+********************************************************************************
+below can be copied straight for paper table
+0.686,0.002,0.000,0.000,0.000,0.246,0.000,0.000,0.889,0.003,0.589,0.000,0.384,0.124,0.665,0.413,0.623,0.143,0.291,0.266,0.724

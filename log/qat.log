@@ -1,0 +1,633 @@
+2024-05-08 23:22:41,618 - root - INFO - AIMET
+{'config': 'config/ptq_5x64x2048.json'}
+Opening arch config file from artifacts/squeezeseg
+Opening data config file from artifacts/squeezeseg
+model folder exists! Using model from artifacts/squeezeseg
+Sequences folder exists! Using sequences from /media/ava/DATA/aleesha/datasets/datasets1/datasets/sequences
+Using 10 scans from sequences [0, 1, 2, 3, 4, 5, 6, 7, 9, 10]
+Sequences folder exists! Using sequences from /media/ava/DATA/aleesha/datasets/datasets1/datasets/sequences
+Using 10 scans from sequences [8]
+Sequences folder exists! Using sequences from /media/ava/DATA/aleesha/datasets/datasets1/datasets/sequences
+Using 10 scans from sequences [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+Using SqueezeNet Backbone
+Depth of backbone input =  5
+Original OS:  16
+New OS:  16
+Strides:  [2, 2, 2, 2]
+Decoder original OS:  16
+Decoder new OS:  16
+Decoder strides:  [2, 2, 2, 2]
+Total number of parameters:  915540
+Total number of parameters requires_grad:  915540
+Param encoder  724032
+Param decoder  179968
+Param head  11540
+Successfully loaded model backbone weights
+Successfully loaded model decoder weights
+Successfully loaded model head weights
+Infering in device:  cuda
+
+PTQ:
+
+Model Validate 1
+2024-05-08 23:22:45,401 - Utils - INFO - Running validator check <function validate_for_reused_modules at 0x7f88a34909d0>
+2024-05-08 23:22:45,551 - Utils - ERROR - The following modules are used more than once in the model: ['backbone.fire23.1.activation', 'backbone.fire23.2.activation', 'backbone.fire45.1.activation', 'backbone.fire45.2.activation', 'backbone.fire6789.1.activation', 'backbone.fire6789.2.activation', 'backbone.fire6789.3.activation', 'backbone.fire6789.4.activation', 'backbone.dropout', 'decoder.firedec10.activation', 'decoder.firedec11.activation', 'decoder.firedec12.activation', 'decoder.firedec13.activation']
+AIMET features are not designed to work with reused modules. Please redefine your model to use distinct modules for each instance.
+2024-05-08 23:22:45,551 - Utils - INFO - Running validator check <function validate_for_missing_modules at 0x7f88a3490a60>
+2024-05-08 23:22:45,723 - Utils - ERROR - Functional ops that are not marked as math invariant were found in the model. AIMET features will not work properly for such ops.
+Consider the following choices: 
+1. Redefine as a torch.nn.Module in the class definition.
+2. The op can remain as a functional op due to being math invariant, but the op type has not been added to ConnectedGraph.math_invariant_types set. 
+Add an entry to ignore the op by importing the set and adding the op type:
+
+	from aimet_torch.meta.connectedgraph import ConnectedGraph
+	ConnectedGraph.math_invariant_types.add(...)
+
+The following functional ops were found. The parent module is named for ease of locating the ops within the model definition.
+	Concat_36            parent module: Segmentator.backbone.fire23.1
+	Concat_45            parent module: Segmentator.backbone.fire23.2
+	Concat_57            parent module: Segmentator.backbone.fire45.1
+	Concat_66            parent module: Segmentator.backbone.fire45.2
+	Concat_78            parent module: Segmentator.backbone.fire6789.1
+	Concat_87            parent module: Segmentator.backbone.fire6789.2
+	Concat_96            parent module: Segmentator.backbone.fire6789.3
+	Concat_105           parent module: Segmentator.backbone.fire6789.4
+	Concat_120           parent module: Segmentator.decoder.firedec10
+	Add_123              parent module: Segmentator.decoder
+	Concat_134           parent module: Segmentator.decoder.firedec11
+	Add_137              parent module: Segmentator.decoder
+	Concat_148           parent module: Segmentator.decoder.firedec12
+	Add_151              parent module: Segmentator.decoder
+	Concat_162           parent module: Segmentator.decoder.firedec13
+	Add_165              parent module: Segmentator.decoder
+	softmax_171          parent module: Segmentator
+
+2024-05-08 23:22:45,723 - Utils - INFO - The following validator checks failed:
+2024-05-08 23:22:45,723 - Utils - INFO - 	<function validate_for_reused_modules at 0x7f88a34909d0>
+2024-05-08 23:22:45,724 - Utils - INFO - 	<function validate_for_missing_modules at 0x7f88a3490a60>
+
+Prepare Model
+2024-05-08 23:22:45,737 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire23_1_activation_1} 
+2024-05-08 23:22:45,738 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire23_1_activation_2} 
+2024-05-08 23:22:45,738 - Quant - INFO - Functional         : Adding new module for node: {cat} 
+2024-05-08 23:22:45,738 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire23_2_activation_1} 
+2024-05-08 23:22:45,738 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire23_2_activation_2} 
+2024-05-08 23:22:45,738 - Quant - INFO - Functional         : Adding new module for node: {cat_1} 
+2024-05-08 23:22:45,739 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire45_1_activation_1} 
+2024-05-08 23:22:45,739 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire45_1_activation_2} 
+2024-05-08 23:22:45,739 - Quant - INFO - Functional         : Adding new module for node: {cat_2} 
+2024-05-08 23:22:45,739 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire45_2_activation_1} 
+2024-05-08 23:22:45,739 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire45_2_activation_2} 
+2024-05-08 23:22:45,739 - Quant - INFO - Functional         : Adding new module for node: {cat_3} 
+2024-05-08 23:22:45,740 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_dropout_1} 
+2024-05-08 23:22:45,740 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_1_activation_1} 
+2024-05-08 23:22:45,740 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_1_activation_2} 
+2024-05-08 23:22:45,740 - Quant - INFO - Functional         : Adding new module for node: {cat_4} 
+2024-05-08 23:22:45,740 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_2_activation_1} 
+2024-05-08 23:22:45,741 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_2_activation_2} 
+2024-05-08 23:22:45,741 - Quant - INFO - Functional         : Adding new module for node: {cat_5} 
+2024-05-08 23:22:45,741 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_3_activation_1} 
+2024-05-08 23:22:45,741 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_3_activation_2} 
+2024-05-08 23:22:45,741 - Quant - INFO - Functional         : Adding new module for node: {cat_6} 
+2024-05-08 23:22:45,741 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_4_activation_1} 
+2024-05-08 23:22:45,742 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_4_activation_2} 
+2024-05-08 23:22:45,742 - Quant - INFO - Functional         : Adding new module for node: {cat_7} 
+2024-05-08 23:22:45,742 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_dropout_2} 
+2024-05-08 23:22:45,742 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec10_activation_1} 
+2024-05-08 23:22:45,742 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec10_activation_2} 
+2024-05-08 23:22:45,742 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec10_activation_3} 
+2024-05-08 23:22:45,742 - Quant - INFO - Functional         : Adding new module for node: {cat_8} 
+2024-05-08 23:22:45,743 - Quant - INFO - Functional         : Adding new module for node: {add} 
+2024-05-08 23:22:45,743 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec11_activation_1} 
+2024-05-08 23:22:45,743 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec11_activation_2} 
+2024-05-08 23:22:45,743 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec11_activation_3} 
+2024-05-08 23:22:45,743 - Quant - INFO - Functional         : Adding new module for node: {cat_9} 
+2024-05-08 23:22:45,743 - Quant - INFO - Functional         : Adding new module for node: {add_1} 
+2024-05-08 23:22:45,744 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec12_activation_1} 
+2024-05-08 23:22:45,744 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec12_activation_2} 
+2024-05-08 23:22:45,744 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec12_activation_3} 
+2024-05-08 23:22:45,744 - Quant - INFO - Functional         : Adding new module for node: {cat_10} 
+2024-05-08 23:22:45,744 - Quant - INFO - Functional         : Adding new module for node: {add_2} 
+2024-05-08 23:22:45,744 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec13_activation_1} 
+2024-05-08 23:22:45,744 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec13_activation_2} 
+2024-05-08 23:22:45,745 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec13_activation_3} 
+2024-05-08 23:22:45,745 - Quant - INFO - Functional         : Adding new module for node: {cat_11} 
+2024-05-08 23:22:45,745 - Quant - INFO - Functional         : Adding new module for node: {add_3} 
+2024-05-08 23:22:45,745 - Quant - INFO - Functional         : Adding new module for node: {softmax} 
+
+Model Validate 2
+2024-05-08 23:22:45,749 - Utils - INFO - Running validator check <function validate_for_reused_modules at 0x7f88a34909d0>
+2024-05-08 23:22:45,754 - Utils - INFO - Running validator check <function validate_for_missing_modules at 0x7f88a3490a60>
+2024-05-08 23:22:46,083 - Utils - INFO - All validation checks passed.
+
+CLE...........
+2024-05-08 23:22:50,011 - Quant - INFO - High Bias folding is not supported for models without BatchNorm Layers
+
+BN...........
+
+Adaround...........
+2024-05-08 23:22:50,695 - Quant - INFO - No config file provided, defaulting to config file at /home/ava/raj/envv/lib/python3.8/site-packages/aimet_common/quantsim_config/default_config.json
+2024-05-08 23:22:50,726 - Quant - INFO - Unsupported op type Squeeze
+2024-05-08 23:22:50,726 - Quant - INFO - Unsupported op type Pad
+2024-05-08 23:22:50,726 - Quant - INFO - Unsupported op type Mean
+2024-05-08 23:22:50,734 - Utils - INFO - ...... subset to store [Conv_24, Relu_25]
+2024-05-08 23:22:50,734 - Utils - INFO - ...... subset to store [Conv_28, Relu_29]
+2024-05-08 23:22:50,734 - Utils - INFO - ...... subset to store [Conv_30, Relu_31]
+2024-05-08 23:22:50,734 - Utils - INFO - ...... subset to store [Conv_35, Relu_36]
+2024-05-08 23:22:50,734 - Utils - INFO - ...... subset to store [Conv_37, Relu_38]
+2024-05-08 23:22:50,734 - Utils - INFO - ...... subset to store [Conv_45, Relu_46]
+2024-05-08 23:22:50,734 - Utils - INFO - ...... subset to store [Conv_47, Relu_48]
+2024-05-08 23:22:50,734 - Utils - INFO - ...... subset to store [Conv_52, Relu_53]
+2024-05-08 23:22:50,734 - Utils - INFO - ...... subset to store [Conv_54, Relu_55]
+2024-05-08 23:22:50,734 - Utils - INFO - ...... subset to store [Conv_62, Relu_63]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_64, Relu_65]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_69, Relu_70]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_71, Relu_72]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_76, Relu_77]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_78, Relu_79]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_83, Relu_84]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_85, Relu_86]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_92, Relu_93]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_96, Relu_97]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_103, Relu_104]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_107, Relu_108]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_114, Relu_115]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_118, Relu_119]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_125, Relu_126]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_129, Relu_130]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_131, Relu_132]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_120, Relu_121]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_109, Relu_110]
+2024-05-08 23:22:50,735 - Utils - INFO - ...... subset to store [Conv_98, Relu_99]
+2024-05-08 23:22:50,736 - Utils - INFO - ...... subset to store [Conv_87, Relu_88]
+2024-05-08 23:22:50,736 - Utils - INFO - ...... subset to store [Conv_80, Relu_81]
+2024-05-08 23:22:50,736 - Utils - INFO - ...... subset to store [Conv_73, Relu_74]
+2024-05-08 23:22:50,736 - Utils - INFO - ...... subset to store [Conv_66, Relu_67]
+2024-05-08 23:22:50,736 - Utils - INFO - ...... subset to store [Conv_56, Relu_57]
+2024-05-08 23:22:50,736 - Utils - INFO - ...... subset to store [Conv_49, Relu_50]
+2024-05-08 23:22:50,736 - Utils - INFO - ...... subset to store [Conv_39, Relu_40]
+2024-05-08 23:22:50,736 - Utils - INFO - ...... subset to store [Conv_32, Relu_33]
+2024-05-08 23:22:50,736 - Quant - INFO - Selecting DefaultOpInstanceConfigGenerator to compute the specialized config. hw_version:default
+/home/ava/raj/envv/lib/python3.8/site-packages/torch/fx/graph.py:606: UserWarning: Attempted to insert a call_module Node with no underlying reference in the owning GraphModule! Call GraphModule.add_submodule to add the necessary submodule
+  warnings.warn("Attempted to insert a call_module Node with "
+2024-05-08 23:22:52,202 - Utils - INFO - Caching 1 batches from data loader at path location: /tmp/adaround/
+  0%|          | 0/109 [00:00<?, ?it/s]                                       2024-05-08 23:22:52,210 - Quant - INFO - Started Optimizing weight rounding of module: backbone.conv1b
+  0%|          | 0/109 [00:00<?, ?it/s]  1%|          | 1/109 [00:00<00:18,  5.86it/s]                                               2024-05-08 23:22:52,381 - Quant - INFO - Started Optimizing weight rounding of module: backbone.conv1a.0
+  1%|          | 1/109 [00:00<00:18,  5.86it/s]                                               2024-05-08 23:22:52,468 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire23.1.squeeze
+  1%|          | 1/109 [00:00<00:18,  5.86it/s]  5%|▍         | 5/109 [00:00<00:06, 16.50it/s]                                               2024-05-08 23:22:52,546 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire23.1.expand1x1
+  5%|▍         | 5/109 [00:00<00:06, 16.50it/s]                                               2024-05-08 23:22:52,624 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire23.1.expand3x3
+  5%|▍         | 5/109 [00:00<00:06, 16.50it/s]  8%|▊         | 9/109 [00:00<00:04, 20.34it/s]                                               2024-05-08 23:22:52,705 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire23.2.squeeze
+  8%|▊         | 9/109 [00:00<00:04, 20.34it/s]                                               2024-05-08 23:22:52,795 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire23.2.expand1x1
+  8%|▊         | 9/109 [00:00<00:04, 20.34it/s] 13%|█▎        | 14/109 [00:00<00:04, 23.69it/s]                                                2024-05-08 23:22:52,881 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire23.2.expand3x3
+ 13%|█▎        | 14/109 [00:00<00:04, 23.69it/s]                                                2024-05-08 23:22:52,969 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire45.1.squeeze
+ 13%|█▎        | 14/109 [00:00<00:04, 23.69it/s] 19%|█▉        | 21/109 [00:00<00:03, 28.93it/s]                                                2024-05-08 23:22:53,069 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire45.1.expand1x1
+ 19%|█▉        | 21/109 [00:00<00:03, 28.93it/s] 22%|██▏       | 24/109 [00:01<00:03, 26.63it/s]                                                2024-05-08 23:22:53,211 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire45.1.expand3x3
+ 22%|██▏       | 24/109 [00:01<00:03, 26.63it/s]                                                2024-05-08 23:22:53,305 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire45.2.squeeze
+ 22%|██▏       | 24/109 [00:01<00:03, 26.63it/s] 26%|██▌       | 28/109 [00:01<00:03, 24.49it/s]                                                2024-05-08 23:22:53,404 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire45.2.expand1x1
+ 26%|██▌       | 28/109 [00:01<00:03, 24.49it/s]                                                2024-05-08 23:22:53,492 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire45.2.expand3x3
+ 26%|██▌       | 28/109 [00:01<00:03, 24.49it/s] 29%|██▉       | 32/109 [00:01<00:03, 23.74it/s]                                                2024-05-08 23:22:53,584 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire6789.1.squeeze
+ 29%|██▉       | 32/109 [00:01<00:03, 23.74it/s] 34%|███▍      | 37/109 [00:01<00:02, 28.72it/s]                                                2024-05-08 23:22:53,691 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire6789.1.expand1x1
+ 34%|███▍      | 37/109 [00:01<00:02, 28.72it/s]                                                2024-05-08 23:22:53,828 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire6789.1.expand3x3
+ 34%|███▍      | 37/109 [00:01<00:02, 28.72it/s] 38%|███▊      | 41/109 [00:01<00:02, 23.82it/s]                                                2024-05-08 23:22:53,930 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire6789.2.squeeze
+ 38%|███▊      | 41/109 [00:01<00:02, 23.82it/s] 40%|████      | 44/109 [00:01<00:02, 24.01it/s]                                                2024-05-08 23:22:54,052 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire6789.2.expand1x1
+ 40%|████      | 44/109 [00:01<00:02, 24.01it/s] 43%|████▎     | 47/109 [00:01<00:02, 25.22it/s]                                                2024-05-08 23:22:54,153 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire6789.2.expand3x3
+ 43%|████▎     | 47/109 [00:01<00:02, 25.22it/s] 46%|████▌     | 50/109 [00:02<00:02, 26.33it/s]                                                2024-05-08 23:22:54,253 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire6789.3.squeeze
+ 46%|████▌     | 50/109 [00:02<00:02, 26.33it/s]                                                2024-05-08 23:22:54,359 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire6789.3.expand1x1
+ 46%|████▌     | 50/109 [00:02<00:02, 26.33it/s] 49%|████▊     | 53/109 [00:02<00:02, 20.83it/s]                                                2024-05-08 23:22:54,476 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire6789.3.expand3x3
+ 49%|████▊     | 53/109 [00:02<00:02, 20.83it/s] 51%|█████▏    | 56/109 [00:02<00:02, 22.12it/s]                                                2024-05-08 23:22:54,591 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire6789.4.squeeze
+ 51%|█████▏    | 56/109 [00:02<00:02, 22.12it/s] 54%|█████▍    | 59/109 [00:02<00:02, 22.87it/s]                                                2024-05-08 23:22:54,711 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire6789.4.expand1x1
+ 54%|█████▍    | 59/109 [00:02<00:02, 22.87it/s]                                                2024-05-08 23:22:54,818 - Quant - INFO - Started Optimizing weight rounding of module: backbone.fire6789.4.expand3x3
+ 54%|█████▍    | 59/109 [00:02<00:02, 22.87it/s] 57%|█████▋    | 62/109 [00:02<00:02, 19.19it/s]                                                2024-05-08 23:22:54,928 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec10.squeeze
+ 57%|█████▋    | 62/109 [00:02<00:02, 19.19it/s] 61%|██████    | 66/109 [00:02<00:01, 22.72it/s]                                                2024-05-08 23:22:55,046 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec10.upconv
+ 61%|██████    | 66/109 [00:02<00:01, 22.72it/s] 63%|██████▎   | 69/109 [00:02<00:01, 23.75it/s]                                                2024-05-08 23:22:55,157 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec10.expand1x1
+ 63%|██████▎   | 69/109 [00:02<00:01, 23.75it/s]                                                2024-05-08 23:22:55,274 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec10.expand3x3
+ 63%|██████▎   | 69/109 [00:03<00:01, 23.75it/s] 66%|██████▌   | 72/109 [00:03<00:01, 18.98it/s]                                                2024-05-08 23:22:55,396 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec11.squeeze
+ 66%|██████▌   | 72/109 [00:03<00:01, 18.98it/s] 70%|██████▉   | 76/109 [00:03<00:01, 22.14it/s]                                                2024-05-08 23:22:55,521 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec11.upconv
+ 70%|██████▉   | 76/109 [00:03<00:01, 22.14it/s] 72%|███████▏  | 79/109 [00:03<00:01, 22.94it/s]                                                2024-05-08 23:22:55,639 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec11.expand1x1
+ 72%|███████▏  | 79/109 [00:03<00:01, 22.94it/s]                                                2024-05-08 23:22:55,762 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec11.expand3x3
+ 72%|███████▏  | 79/109 [00:03<00:01, 22.94it/s] 75%|███████▌  | 82/109 [00:03<00:01, 18.19it/s]                                                2024-05-08 23:22:55,891 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec12.squeeze
+ 75%|███████▌  | 82/109 [00:03<00:01, 18.19it/s] 79%|███████▉  | 86/109 [00:03<00:01, 21.15it/s]                                                2024-05-08 23:22:56,023 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec12.upconv
+ 79%|███████▉  | 86/109 [00:03<00:01, 21.15it/s] 82%|████████▏ | 89/109 [00:03<00:00, 21.91it/s]                                                2024-05-08 23:22:56,147 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec12.expand1x1
+ 82%|████████▏ | 89/109 [00:03<00:00, 21.91it/s]                                                2024-05-08 23:22:56,275 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec12.expand3x3
+ 82%|████████▏ | 89/109 [00:04<00:00, 21.91it/s] 84%|████████▍ | 92/109 [00:04<00:00, 17.51it/s]                                                2024-05-08 23:22:56,406 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec13.squeeze
+ 84%|████████▍ | 92/109 [00:04<00:00, 17.51it/s] 88%|████████▊ | 96/109 [00:04<00:00, 20.32it/s]                                                2024-05-08 23:22:56,544 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec13.upconv
+ 88%|████████▊ | 96/109 [00:04<00:00, 20.32it/s] 91%|█████████ | 99/109 [00:04<00:00, 20.75it/s]                                                2024-05-08 23:22:56,680 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec13.expand1x1
+ 91%|█████████ | 99/109 [00:04<00:00, 20.75it/s]                                                2024-05-08 23:22:56,824 - Quant - INFO - Started Optimizing weight rounding of module: decoder.firedec13.expand3x3
+ 91%|█████████ | 99/109 [00:04<00:00, 20.75it/s] 94%|█████████▎| 102/109 [00:04<00:00, 16.04it/s]                                                 2024-05-08 23:22:56,977 - Quant - INFO - Started Optimizing weight rounding of module: head.1
+ 94%|█████████▎| 102/109 [00:04<00:00, 16.04it/s] 99%|█████████▉| 108/109 [00:04<00:00, 19.87it/s]100%|██████████| 109/109 [00:04<00:00, 21.89it/s]2024-05-08 23:22:57,189 - Quant - INFO - Deleting model inputs from location: /tmp/adaround/
+2024-05-08 23:22:57,200 - Quant - INFO - Completed Adarounding Model
+
+QuantizationSIM
+2024-05-08 23:22:57,541 - Quant - INFO - No config file provided, defaulting to config file at /home/ava/raj/envv/lib/python3.8/site-packages/aimet_common/quantsim_config/default_config.json
+2024-05-08 23:22:57,567 - Quant - INFO - Unsupported op type Squeeze
+2024-05-08 23:22:57,567 - Quant - INFO - Unsupported op type Pad
+2024-05-08 23:22:57,567 - Quant - INFO - Unsupported op type Mean
+2024-05-08 23:22:57,574 - Utils - INFO - ...... subset to store [Conv_24, Relu_25]
+2024-05-08 23:22:57,574 - Utils - INFO - ...... subset to store [Conv_28, Relu_29]
+2024-05-08 23:22:57,574 - Utils - INFO - ...... subset to store [Conv_30, Relu_31]
+2024-05-08 23:22:57,574 - Utils - INFO - ...... subset to store [Conv_35, Relu_36]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_37, Relu_38]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_45, Relu_46]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_47, Relu_48]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_52, Relu_53]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_54, Relu_55]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_62, Relu_63]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_64, Relu_65]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_69, Relu_70]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_71, Relu_72]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_76, Relu_77]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_78, Relu_79]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_83, Relu_84]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_85, Relu_86]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_92, Relu_93]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_96, Relu_97]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_103, Relu_104]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_107, Relu_108]
+2024-05-08 23:22:57,575 - Utils - INFO - ...... subset to store [Conv_114, Relu_115]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_118, Relu_119]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_125, Relu_126]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_129, Relu_130]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_131, Relu_132]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_120, Relu_121]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_109, Relu_110]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_98, Relu_99]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_87, Relu_88]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_80, Relu_81]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_73, Relu_74]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_66, Relu_67]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_56, Relu_57]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_49, Relu_50]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_39, Relu_40]
+2024-05-08 23:22:57,576 - Utils - INFO - ...... subset to store [Conv_32, Relu_33]
+2024-05-08 23:22:57,576 - Quant - INFO - Selecting DefaultOpInstanceConfigGenerator to compute the specialized config. hw_version:default
+2024-05-08 23:22:57,577 - Quant - INFO - Setting quantization encodings for parameter: backbone.conv1b.weight
+2024-05-08 23:22:57,577 - Quant - INFO - Freezing quantization encodings for parameter: backbone.conv1b.weight
+2024-05-08 23:22:57,577 - Quant - INFO - Setting quantization encodings for parameter: backbone.conv1a.0.weight
+2024-05-08 23:22:57,577 - Quant - INFO - Freezing quantization encodings for parameter: backbone.conv1a.0.weight
+2024-05-08 23:22:57,577 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire23.1.squeeze.weight
+2024-05-08 23:22:57,577 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire23.1.squeeze.weight
+2024-05-08 23:22:57,577 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire23.1.expand1x1.weight
+2024-05-08 23:22:57,577 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire23.1.expand1x1.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire23.1.expand3x3.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire23.1.expand3x3.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire23.2.squeeze.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire23.2.squeeze.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire23.2.expand1x1.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire23.2.expand1x1.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire23.2.expand3x3.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire23.2.expand3x3.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire45.1.squeeze.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire45.1.squeeze.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire45.1.expand1x1.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire45.1.expand1x1.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire45.1.expand3x3.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire45.1.expand3x3.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire45.2.squeeze.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire45.2.squeeze.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire45.2.expand1x1.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire45.2.expand1x1.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire45.2.expand3x3.weight
+2024-05-08 23:22:57,578 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire45.2.expand3x3.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire6789.1.squeeze.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire6789.1.squeeze.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire6789.1.expand1x1.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire6789.1.expand1x1.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire6789.1.expand3x3.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire6789.1.expand3x3.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire6789.2.squeeze.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire6789.2.squeeze.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire6789.2.expand1x1.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire6789.2.expand1x1.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire6789.2.expand3x3.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire6789.2.expand3x3.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire6789.3.squeeze.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire6789.3.squeeze.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire6789.3.expand1x1.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire6789.3.expand1x1.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire6789.3.expand3x3.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire6789.3.expand3x3.weight
+2024-05-08 23:22:57,579 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire6789.4.squeeze.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire6789.4.squeeze.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire6789.4.expand1x1.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire6789.4.expand1x1.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Setting quantization encodings for parameter: backbone.fire6789.4.expand3x3.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Freezing quantization encodings for parameter: backbone.fire6789.4.expand3x3.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec10.squeeze.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec10.squeeze.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec10.upconv.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec10.upconv.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec10.expand1x1.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec10.expand1x1.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec10.expand3x3.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec10.expand3x3.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec11.squeeze.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec11.squeeze.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec11.upconv.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec11.upconv.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec11.expand1x1.weight
+2024-05-08 23:22:57,580 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec11.expand1x1.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec11.expand3x3.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec11.expand3x3.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec12.squeeze.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec12.squeeze.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec12.upconv.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec12.upconv.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec12.expand1x1.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec12.expand1x1.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec12.expand3x3.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec12.expand3x3.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec13.squeeze.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec13.squeeze.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec13.upconv.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec13.upconv.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec13.expand1x1.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec13.expand1x1.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Setting quantization encodings for parameter: decoder.firedec13.expand3x3.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Freezing quantization encodings for parameter: decoder.firedec13.expand3x3.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Setting quantization encodings for parameter: head.1.weight
+2024-05-08 23:22:57,581 - Quant - INFO - Freezing quantization encodings for parameter: head.1.weight
+set_and_freeze_param_encodings finished!
+
+Compute Encoding
+
+
+PTQ Inference:
+
+Finished Infering
+Ignoring xentropy class  0  in IoU evaluation
+
+Evaluating sequences: 
+Validation set:
+Acc avg 0.519
+IoU avg 0.188
+IoU class 1 [car] = 0.501
+IoU class 2 [bicycle] = 0.001
+IoU class 3 [motorcycle] = 0.000
+IoU class 4 [truck] = 0.000
+IoU class 5 [other-vehicle] = 0.000
+IoU class 6 [person] = 0.139
+IoU class 7 [bicyclist] = 0.000
+IoU class 8 [motorcyclist] = 0.000
+IoU class 9 [road] = 0.761
+IoU class 10 [parking] = 0.005
+IoU class 11 [sidewalk] = 0.080
+IoU class 12 [other-ground] = 0.000
+IoU class 13 [building] = 0.232
+IoU class 14 [fence] = 0.069
+IoU class 15 [vegetation] = 0.568
+IoU class 16 [trunk] = 0.334
+IoU class 17 [terrain] = 0.479
+IoU class 18 [pole] = 0.150
+IoU class 19 [traffic-sign] = 0.254
+********************************************************************************
+below can be copied straight for paper table
+0.501,0.001,0.000,0.000,0.000,0.139,0.000,0.000,0.761,0.005,0.080,0.000,0.232,0.069,0.568,0.334,0.479,0.150,0.254,0.188,0.519
+
+Exporting Model
+2024-05-08 23:23:02,717 - Utils - INFO - successfully created onnx model with 106/107 node names updated
+2024-05-08 23:23:02,728 - Quant - INFO - layer with name {backbone.dropout} not found in model, not an issue; skip and continue 
+2024-05-08 23:23:02,738 - Quant - INFO - layer with name {module_backbone_dropout_1} not found in model, not an issue; skip and continue 
+2024-05-08 23:23:02,740 - Quant - INFO - layer with name {module_backbone_dropout_2} not found in model, not an issue; skip and continue 
+2024-05-08 23:23:02,747 - Quant - INFO - layer with name {decoder.dropout} not found in model, not an issue; skip and continue 
+2024-05-08 23:23:02,752 - Quant - INFO - layer with name {head.0} not found in model, not an issue; skip and continue 
+2024-05-08 23:23:02,753 - Quant - INFO - Layers excluded from quantization: []
+
+QAT...........
+Sequences folder exists! Using sequences from /media/ava/DATA/aleesha/datasets/datasets1/datasets/sequences
+Using 10 scans from sequences [0, 1, 2, 3, 4, 5, 6, 7, 9, 10]
+Sequences folder exists! Using sequences from /media/ava/DATA/aleesha/datasets/datasets1/datasets/sequences
+Using 10 scans from sequences [8]
+Loss weights from content:  tensor([  0.0000,  22.9317, 857.5627, 715.1100, 315.9618, 356.2452, 747.6170,
+        887.2239, 963.8915,   5.0051,  63.6247,   6.9002, 203.8796,   7.4802,
+         13.6315,   3.7339, 142.1462,  12.6355, 259.3699, 618.9667])
+Training in device:  cuda
+Ignoring class  0  in IoU evaluation
+/home/ava/raj/envv/lib/python3.8/site-packages/torch/optim/lr_scheduler.py:129: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+Lr: 1.000e-03 | Update: 9.403e-03 mean,9.578e-02 std | Epoch: [0][0/10] | Time 1.784 (1.784) | Data 1.349 (1.349) | Loss 2.3939 (2.3939) | acc 0.542 (0.542) | IoU 0.189 (0.189)
+Lr: 2.000e-03 | Update: 5.762e-03 mean,5.639e-02 std | Epoch: [0][1/10] | Time 0.150 (0.967) | Data 0.017 (0.683) | Loss 1.4178 (1.9058) | acc 0.493 (0.518) | IoU 0.188 (0.189)
+Lr: 3.000e-03 | Update: 3.841e-03 mean,4.044e-02 std | Epoch: [0][2/10] | Time 0.128 (0.688) | Data 0.012 (0.459) | Loss 1.2580 (1.6899) | acc 0.454 (0.497) | IoU 0.153 (0.177)
+Lr: 4.000e-03 | Update: 9.108e-03 mean,1.140e-01 std | Epoch: [0][3/10] | Time 0.128 (0.548) | Data 0.012 (0.348) | Loss 1.1983 (1.5670) | acc 0.473 (0.491) | IoU 0.142 (0.168)
+Lr: 5.000e-03 | Update: 3.154e-03 mean,2.832e-02 std | Epoch: [0][4/10] | Time 0.127 (0.464) | Data 0.012 (0.280) | Loss 1.3292 (1.5194) | acc 0.451 (0.483) | IoU 0.124 (0.159)
+Lr: 6.000e-03 | Update: 3.312e-03 mean,2.857e-02 std | Epoch: [0][5/10] | Time 0.128 (0.408) | Data 0.012 (0.236) | Loss 1.4359 (1.5055) | acc 0.489 (0.484) | IoU 0.124 (0.153)
+Lr: 7.000e-03 | Update: 4.069e-03 mean,3.772e-02 std | Epoch: [0][6/10] | Time 0.129 (0.368) | Data 0.012 (0.204) | Loss 0.9677 (1.4287) | acc 0.553 (0.494) | IoU 0.157 (0.154)
+Lr: 8.000e-03 | Update: 1.203e-03 mean,1.159e-02 std | Epoch: [0][7/10] | Time 0.129 (0.338) | Data 0.012 (0.180) | Loss 1.1700 (1.3963) | acc 0.593 (0.506) | IoU 0.170 (0.156)
+Lr: 9.000e-03 | Update: 2.221e-03 mean,1.884e-02 std | Epoch: [0][8/10] | Time 0.130 (0.315) | Data 0.012 (0.161) | Loss 0.9700 (1.3490) | acc 0.616 (0.518) | IoU 0.157 (0.156)
+Lr: 1.000e-02 | Update: 3.563e-03 mean,2.839e-02 std | Epoch: [0][9/10] | Time 0.132 (0.297) | Data 0.012 (0.146) | Loss 1.1121 (1.3253) | acc 0.591 (0.526) | IoU 0.135 (0.154)
+********************************************************************************
+Validation set:
+Time avg per batch 0.150
+Loss avg 0.9298
+Acc avg 0.699
+IoU avg 0.180
+IoU class 0 [unlabeled] = 0.000
+IoU class 1 [car] = 0.315
+IoU class 2 [bicycle] = 0.000
+IoU class 3 [motorcycle] = 0.000
+IoU class 4 [truck] = 0.000
+IoU class 5 [other-vehicle] = 0.000
+IoU class 6 [person] = 0.086
+IoU class 7 [bicyclist] = 0.000
+IoU class 8 [motorcyclist] = 0.000
+IoU class 9 [road] = 0.772
+IoU class 10 [parking] = 0.016
+IoU class 11 [sidewalk] = 0.641
+IoU class 12 [other-ground] = 0.000
+IoU class 13 [building] = 0.177
+IoU class 14 [fence] = 0.035
+IoU class 15 [vegetation] = 0.295
+IoU class 16 [trunk] = 0.325
+IoU class 17 [terrain] = 0.591
+IoU class 18 [pole] = 0.058
+IoU class 19 [traffic-sign] = 0.109
+********************************************************************************
+Lr: 1.000e-02 | Update: 2.163e-03 mean,1.643e-02 std | Epoch: [1][0/10] | Time 0.936 (0.936) | Data 0.775 (0.775) | Loss 1.5031 (1.5031) | acc 0.659 (0.659) | IoU 0.152 (0.152)
+Lr: 9.995e-03 | Update: 3.026e-03 mean,3.507e-02 std | Epoch: [1][1/10] | Time 0.131 (0.534) | Data 0.013 (0.394) | Loss 0.8390 (1.1710) | acc 0.703 (0.681) | IoU 0.213 (0.183)
+Lr: 9.990e-03 | Update: 4.179e-03 mean,3.921e-02 std | Epoch: [1][2/10] | Time 0.130 (0.399) | Data 0.012 (0.267) | Loss 2.0321 (1.4581) | acc 0.632 (0.665) | IoU 0.184 (0.183)
+Lr: 9.985e-03 | Update: 2.143e-03 mean,1.885e-02 std | Epoch: [1][3/10] | Time 0.134 (0.333) | Data 0.013 (0.203) | Loss 1.0942 (1.3671) | acc 0.694 (0.672) | IoU 0.222 (0.193)
+Lr: 9.980e-03 | Update: 4.034e-03 mean,4.814e-02 std | Epoch: [1][4/10] | Time 0.134 (0.293) | Data 0.013 (0.165) | Loss 1.0692 (1.3075) | acc 0.720 (0.681) | IoU 0.227 (0.200)
+Lr: 9.975e-03 | Update: 1.946e-03 mean,1.716e-02 std | Epoch: [1][5/10] | Time 0.135 (0.267) | Data 0.013 (0.140) | Loss 0.9034 (1.2402) | acc 0.685 (0.682) | IoU 0.209 (0.201)
+Lr: 9.970e-03 | Update: 1.148e-03 mean,1.338e-02 std | Epoch: [1][6/10] | Time 0.136 (0.248) | Data 0.013 (0.122) | Loss 0.9196 (1.1944) | acc 0.647 (0.677) | IoU 0.208 (0.202)
+Lr: 9.965e-03 | Update: 3.162e-03 mean,3.236e-02 std | Epoch: [1][7/10] | Time 0.138 (0.234) | Data 0.013 (0.108) | Loss 0.8507 (1.1514) | acc 0.667 (0.676) | IoU 0.229 (0.205)
+Lr: 9.960e-03 | Update: 2.015e-03 mean,2.256e-02 std | Epoch: [1][8/10] | Time 0.137 (0.223) | Data 0.013 (0.098) | Loss 0.8333 (1.1161) | acc 0.671 (0.675) | IoU 0.216 (0.207)
+Lr: 9.955e-03 | Update: 1.940e-03 mean,1.781e-02 std | Epoch: [1][9/10] | Time 0.135 (0.215) | Data 0.013 (0.089) | Loss 0.7784 (1.0823) | acc 0.609 (0.669) | IoU 0.196 (0.206)
+********************************************************************************
+Validation set:
+Time avg per batch 0.153
+Loss avg 0.6532
+Acc avg 0.735
+IoU avg 0.247
+IoU class 0 [unlabeled] = 0.000
+IoU class 1 [car] = 0.775
+IoU class 2 [bicycle] = 0.048
+IoU class 3 [motorcycle] = 0.000
+IoU class 4 [truck] = 0.000
+IoU class 5 [other-vehicle] = 0.000
+IoU class 6 [person] = 0.145
+IoU class 7 [bicyclist] = 0.000
+IoU class 8 [motorcyclist] = 0.000
+IoU class 9 [road] = 0.805
+IoU class 10 [parking] = 0.048
+IoU class 11 [sidewalk] = 0.681
+IoU class 12 [other-ground] = 0.000
+IoU class 13 [building] = 0.526
+IoU class 14 [fence] = 0.085
+IoU class 15 [vegetation] = 0.293
+IoU class 16 [trunk] = 0.243
+IoU class 17 [terrain] = 0.638
+IoU class 18 [pole] = 0.181
+IoU class 19 [traffic-sign] = 0.218
+********************************************************************************
+Lr: 9.950e-03 | Update: 2.498e-03 mean,2.550e-02 std | Epoch: [2][0/10] | Time 0.929 (0.929) | Data 0.765 (0.765) | Loss 0.7081 (0.7081) | acc 0.732 (0.732) | IoU 0.241 (0.241)
+Lr: 9.945e-03 | Update: 4.123e-04 mean,2.962e-03 std | Epoch: [2][1/10] | Time 0.134 (0.532) | Data 0.013 (0.389) | Loss 0.7962 (0.7522) | acc 0.722 (0.727) | IoU 0.239 (0.240)
+Lr: 9.940e-03 | Update: 1.197e-03 mean,1.150e-02 std | Epoch: [2][2/10] | Time 0.131 (0.398) | Data 0.012 (0.263) | Loss 0.9067 (0.8037) | acc 0.741 (0.732) | IoU 0.229 (0.237)
+Lr: 9.935e-03 | Update: 1.155e-03 mean,1.288e-02 std | Epoch: [2][3/10] | Time 0.130 (0.331) | Data 0.012 (0.201) | Loss 0.6654 (0.7691) | acc 0.708 (0.726) | IoU 0.196 (0.226)
+Lr: 9.930e-03 | Update: 5.594e-04 mean,4.867e-03 std | Epoch: [2][4/10] | Time 0.130 (0.291) | Data 0.012 (0.163) | Loss 1.0124 (0.8178) | acc 0.677 (0.716) | IoU 0.227 (0.226)
+Lr: 9.925e-03 | Update: 1.969e-03 mean,1.909e-02 std | Epoch: [2][5/10] | Time 0.130 (0.264) | Data 0.012 (0.138) | Loss 0.7533 (0.8070) | acc 0.654 (0.706) | IoU 0.177 (0.218)
+Lr: 9.920e-03 | Update: 1.730e-03 mean,1.613e-02 std | Epoch: [2][6/10] | Time 0.129 (0.245) | Data 0.012 (0.120) | Loss 0.9065 (0.8212) | acc 0.681 (0.702) | IoU 0.191 (0.214)
+Lr: 9.915e-03 | Update: 1.262e-03 mean,1.215e-02 std | Epoch: [2][7/10] | Time 0.130 (0.231) | Data 0.012 (0.106) | Loss 0.7693 (0.8148) | acc 0.705 (0.703) | IoU 0.193 (0.212)
+Lr: 9.910e-03 | Update: 4.675e-04 mean,3.295e-03 std | Epoch: [2][8/10] | Time 0.129 (0.219) | Data 0.012 (0.096) | Loss 0.7507 (0.8076) | acc 0.675 (0.700) | IoU 0.203 (0.211)
+Lr: 9.905e-03 | Update: 2.072e-03 mean,2.060e-02 std | Epoch: [2][9/10] | Time 0.130 (0.210) | Data 0.012 (0.087) | Loss 0.7597 (0.8028) | acc 0.714 (0.701) | IoU 0.223 (0.212)
+********************************************************************************
+Validation set:
+Time avg per batch 0.143
+Loss avg 0.6931
+Acc avg 0.753
+IoU avg 0.243
+IoU class 0 [unlabeled] = 0.000
+IoU class 1 [car] = 0.776
+IoU class 2 [bicycle] = 0.065
+IoU class 3 [motorcycle] = 0.000
+IoU class 4 [truck] = 0.000
+IoU class 5 [other-vehicle] = 0.000
+IoU class 6 [person] = 0.061
+IoU class 7 [bicyclist] = 0.000
+IoU class 8 [motorcyclist] = 0.000
+IoU class 9 [road] = 0.803
+IoU class 10 [parking] = 0.002
+IoU class 11 [sidewalk] = 0.712
+IoU class 12 [other-ground] = 0.000
+IoU class 13 [building] = 0.158
+IoU class 14 [fence] = 0.048
+IoU class 15 [vegetation] = 0.395
+IoU class 16 [trunk] = 0.285
+IoU class 17 [terrain] = 0.627
+IoU class 18 [pole] = 0.272
+IoU class 19 [traffic-sign] = 0.422
+********************************************************************************
+Lr: 9.900e-03 | Update: 5.055e-03 mean,5.295e-02 std | Epoch: [3][0/10] | Time 0.916 (0.916) | Data 0.771 (0.771) | Loss 0.9007 (0.9007) | acc 0.751 (0.751) | IoU 0.254 (0.254)
+Lr: 9.895e-03 | Update: 1.708e-03 mean,1.745e-02 std | Epoch: [3][1/10] | Time 0.130 (0.523) | Data 0.012 (0.392) | Loss 0.7585 (0.8296) | acc 0.777 (0.764) | IoU 0.258 (0.256)
+Lr: 9.890e-03 | Update: 2.294e-03 mean,2.241e-02 std | Epoch: [3][2/10] | Time 0.129 (0.392) | Data 0.012 (0.265) | Loss 0.6288 (0.7627) | acc 0.714 (0.747) | IoU 0.221 (0.245)
+Lr: 9.885e-03 | Update: 1.422e-03 mean,1.223e-02 std | Epoch: [3][3/10] | Time 0.129 (0.326) | Data 0.011 (0.202) | Loss 0.7696 (0.7644) | acc 0.723 (0.741) | IoU 0.228 (0.240)
+Lr: 9.880e-03 | Update: 1.473e-03 mean,1.269e-02 std | Epoch: [3][4/10] | Time 0.130 (0.287) | Data 0.011 (0.164) | Loss 0.6722 (0.7460) | acc 0.725 (0.738) | IoU 0.230 (0.238)
+Lr: 9.875e-03 | Update: 2.244e-03 mean,2.265e-02 std | Epoch: [3][5/10] | Time 0.128 (0.260) | Data 0.012 (0.138) | Loss 0.6904 (0.7367) | acc 0.716 (0.734) | IoU 0.228 (0.237)
+Lr: 9.871e-03 | Update: 2.112e-03 mean,1.915e-02 std | Epoch: [3][6/10] | Time 0.128 (0.241) | Data 0.011 (0.120) | Loss 0.6355 (0.7223) | acc 0.730 (0.734) | IoU 0.248 (0.238)
+Lr: 9.866e-03 | Update: 2.807e-03 mean,2.361e-02 std | Epoch: [3][7/10] | Time 0.128 (0.227) | Data 0.011 (0.107) | Loss 0.9381 (0.7492) | acc 0.694 (0.729) | IoU 0.226 (0.237)
+Lr: 9.861e-03 | Update: 1.349e-03 mean,1.167e-02 std | Epoch: [3][8/10] | Time 0.129 (0.216) | Data 0.011 (0.096) | Loss 0.6087 (0.7336) | acc 0.775 (0.734) | IoU 0.260 (0.239)
+Lr: 9.856e-03 | Update: 2.216e-03 mean,1.921e-02 std | Epoch: [3][9/10] | Time 0.129 (0.208) | Data 0.012 (0.088) | Loss 0.6107 (0.7213) | acc 0.774 (0.738) | IoU 0.263 (0.242)
+********************************************************************************
+Validation set:
+Time avg per batch 0.145
+Loss avg 0.5832
+Acc avg 0.809
+IoU avg 0.291
+IoU class 0 [unlabeled] = 0.000
+IoU class 1 [car] = 0.722
+IoU class 2 [bicycle] = 0.066
+IoU class 3 [motorcycle] = 0.000
+IoU class 4 [truck] = 0.000
+IoU class 5 [other-vehicle] = 0.000
+IoU class 6 [person] = 0.148
+IoU class 7 [bicyclist] = 0.000
+IoU class 8 [motorcyclist] = 0.000
+IoU class 9 [road] = 0.826
+IoU class 10 [parking] = 0.043
+IoU class 11 [sidewalk] = 0.704
+IoU class 12 [other-ground] = 0.000
+IoU class 13 [building] = 0.579
+IoU class 14 [fence] = 0.146
+IoU class 15 [vegetation] = 0.648
+IoU class 16 [trunk] = 0.463
+IoU class 17 [terrain] = 0.683
+IoU class 18 [pole] = 0.231
+IoU class 19 [traffic-sign] = 0.272
+********************************************************************************
+Lr: 9.851e-03 | Update: 3.163e-03 mean,3.114e-02 std | Epoch: [4][0/10] | Time 0.904 (0.904) | Data 0.743 (0.743) | Loss 0.8643 (0.8643) | acc 0.777 (0.777) | IoU 0.264 (0.264)
+Lr: 9.846e-03 | Update: 1.884e-03 mean,1.853e-02 std | Epoch: [4][1/10] | Time 0.131 (0.517) | Data 0.013 (0.378) | Loss 0.7624 (0.8134) | acc 0.793 (0.785) | IoU 0.281 (0.272)
+Lr: 9.841e-03 | Update: 1.277e-03 mean,1.329e-02 std | Epoch: [4][2/10] | Time 0.130 (0.388) | Data 0.012 (0.256) | Loss 0.7353 (0.7873) | acc 0.753 (0.774) | IoU 0.258 (0.267)
+Lr: 9.836e-03 | Update: 1.691e-03 mean,1.345e-02 std | Epoch: [4][3/10] | Time 0.129 (0.323) | Data 0.012 (0.195) | Loss 0.7935 (0.7889) | acc 0.684 (0.752) | IoU 0.258 (0.265)
+Lr: 9.831e-03 | Update: 1.479e-03 mean,1.248e-02 std | Epoch: [4][4/10] | Time 0.131 (0.285) | Data 0.012 (0.159) | Loss 0.7533 (0.7818) | acc 0.712 (0.744) | IoU 0.247 (0.261)
+Lr: 9.826e-03 | Update: 1.057e-03 mean,9.742e-03 std | Epoch: [4][5/10] | Time 0.131 (0.259) | Data 0.012 (0.134) | Loss 0.6409 (0.7583) | acc 0.728 (0.741) | IoU 0.230 (0.256)
+Lr: 9.821e-03 | Update: 8.185e-04 mean,6.045e-03 std | Epoch: [4][6/10] | Time 0.132 (0.241) | Data 0.012 (0.117) | Loss 0.7233 (0.7533) | acc 0.794 (0.749) | IoU 0.268 (0.258)
+Lr: 9.816e-03 | Update: 2.040e-03 mean,2.407e-02 std | Epoch: [4][7/10] | Time 0.130 (0.227) | Data 0.012 (0.104) | Loss 0.9076 (0.7726) | acc 0.761 (0.750) | IoU 0.227 (0.254)
+Lr: 9.811e-03 | Update: 1.256e-03 mean,1.313e-02 std | Epoch: [4][8/10] | Time 0.131 (0.217) | Data 0.012 (0.093) | Loss 0.7093 (0.7655) | acc 0.778 (0.753) | IoU 0.245 (0.253)
+Lr: 9.806e-03 | Update: 1.659e-03 mean,1.592e-02 std | Epoch: [4][9/10] | Time 0.130 (0.208) | Data 0.012 (0.085) | Loss 0.5894 (0.7479) | acc 0.792 (0.757) | IoU 0.247 (0.252)
+********************************************************************************
+Validation set:
+Time avg per batch 0.143
+Loss avg 0.5397
+Acc avg 0.759
+IoU avg 0.262
+IoU class 0 [unlabeled] = 0.000
+IoU class 1 [car] = 0.785
+IoU class 2 [bicycle] = 0.110
+IoU class 3 [motorcycle] = 0.000
+IoU class 4 [truck] = 0.000
+IoU class 5 [other-vehicle] = 0.000
+IoU class 6 [person] = 0.156
+IoU class 7 [bicyclist] = 0.000
+IoU class 8 [motorcyclist] = 0.000
+IoU class 9 [road] = 0.829
+IoU class 10 [parking] = 0.085
+IoU class 11 [sidewalk] = 0.721
+IoU class 12 [other-ground] = 0.000
+IoU class 13 [building] = 0.375
+IoU class 14 [fence] = 0.094
+IoU class 15 [vegetation] = 0.334
+IoU class 16 [trunk] = 0.249
+IoU class 17 [terrain] = 0.678
+IoU class 18 [pole] = 0.201
+IoU class 19 [traffic-sign] = 0.355
+********************************************************************************
+Finished Training
+
+QAT Inference:
+
+Finished Infering
+Ignoring xentropy class  0  in IoU evaluation
+
+Evaluating sequences: 
+Validation set:
+Acc avg 0.733
+IoU avg 0.247
+IoU class 1 [car] = 0.746
+IoU class 2 [bicycle] = 0.103
+IoU class 3 [motorcycle] = 0.000
+IoU class 4 [truck] = 0.000
+IoU class 5 [other-vehicle] = 0.000
+IoU class 6 [person] = 0.139
+IoU class 7 [bicyclist] = 0.000
+IoU class 8 [motorcyclist] = 0.000
+IoU class 9 [road] = 0.811
+IoU class 10 [parking] = 0.093
+IoU class 11 [sidewalk] = 0.696
+IoU class 12 [other-ground] = 0.000
+IoU class 13 [building] = 0.345
+IoU class 14 [fence] = 0.079
+IoU class 15 [vegetation] = 0.333
+IoU class 16 [trunk] = 0.239
+IoU class 17 [terrain] = 0.658
+IoU class 18 [pole] = 0.161
+IoU class 19 [traffic-sign] = 0.295
+********************************************************************************
+below can be copied straight for paper table
+0.746,0.103,0.000,0.000,0.000,0.139,0.000,0.000,0.811,0.093,0.696,0.000,0.345,0.079,0.333,0.239,0.658,0.161,0.295,0.247,0.733
+
+Exporting Model
+2024-05-08 23:23:28,599 - Utils - INFO - successfully created onnx model with 106/107 node names updated
+2024-05-08 23:23:28,612 - Quant - INFO - layer with name {backbone.dropout} not found in model, not an issue; skip and continue 
+2024-05-08 23:23:28,622 - Quant - INFO - layer with name {module_backbone_dropout_1} not found in model, not an issue; skip and continue 
+2024-05-08 23:23:28,625 - Quant - INFO - layer with name {module_backbone_dropout_2} not found in model, not an issue; skip and continue 
+2024-05-08 23:23:28,632 - Quant - INFO - layer with name {decoder.dropout} not found in model, not an issue; skip and continue 
+2024-05-08 23:23:28,637 - Quant - INFO - layer with name {head.0} not found in model, not an issue; skip and continue 
+2024-05-08 23:23:28,638 - Quant - INFO - Layers excluded from quantization: []
