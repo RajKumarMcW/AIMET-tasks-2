@@ -28,6 +28,7 @@ from aimet_torch.cross_layer_equalization import equalize_model
 from aimet_torch.adaround.adaround_weight import Adaround, AdaroundParameters
 from aimet_torch.batch_norm_fold import fold_all_batch_norms
 from aimet_torch.auto_quant import AutoQuant
+from aimet_common.defs import QuantScheme 
 import aimet_torch
 
 
@@ -120,11 +121,9 @@ class User():
                                                     filename_prefix='Adaround',
                                                     default_param_bw=8,
                                                     default_quant_scheme="tf_enhanced")
-                
+               
           kwargs = {
-              "quant_scheme": self.cfg["optimization_config"][
-                  "quantization_configuration"
-              ]["quant_scheme"],
+              "quant_scheme": QuantScheme.training_range_learning_with_tf_init,
               "default_param_bw": self.cfg["optimization_config"][
                   "quantization_configuration"
               ]["param_bw"],
