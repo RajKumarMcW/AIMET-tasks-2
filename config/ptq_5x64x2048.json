@@ -21,5 +21,7 @@
     "dataset": "/media/ava/DATA/aleesha/datasets/datasets1/datasets",
     "pretrained_model": "artifacts/squeezeseg",
     "exports_path": "/home/ava/raj/lidar-bonnetal/train/artifacts",
-    "exports_name": "rangenet_manual_ptq_5x64x2048"
+    "exports_name": "rangenet_manual_ptq_5x64x2048",
+    "qat":true,
+    "qat_name":"rangenet_qat_5x64x2048"
 }

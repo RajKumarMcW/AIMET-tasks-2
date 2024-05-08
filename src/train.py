@@ -9,10 +9,10 @@ from shutil import copyfile
 import os
 import shutil
 import __init__ as booger
-# /home/ava/raj/lidar-bonnetal/train/tasks/semantic/train.py -d /media/ava/DATA/aleesha/datasets -ac /home/ava/raj/lidar-bonnetal/train/tasks/semantic/config/arch/darknet21.yaml -l log
+# src/train.py -d /media/ava/DATA/aleesha/datasets/datasets1/datasets -ac artifacts/squeezeseg/arch_cfg.yaml -dc artifacts/squeezeseg/data_cfg.yaml -l log -p artifacts/squeezeseg
 # /home/ava/raj/lidar-bonnetal/train/tasks/semantic/evaluate_iou.py -d /media/ava/DATA/aleesha/datasets/datasets1/datasets -p prediction --split valid
 # /home/ava/raj/lidar-bonnetal/train/tasks/semantic/infer.py -d /media/ava/DATA/aleesha/datasets -l predictions -m /home/ava/raj/lidar-bonnetal/train/tasks/semantic/log
-from semantic.modules.trainer import *
+from modules.trainer import *
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser("./train.py")

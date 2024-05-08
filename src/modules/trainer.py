@@ -18,12 +18,12 @@ import os
 import numpy as np
 from matplotlib import pyplot as plt
 
-from common.logger import Logger
+# from common.logger import Logger
 from common.avgmeter import *
 from common.sync_batchnorm.batchnorm import convert_model
 from common.warmupLR import *
-from tasks.semantic.modules.segmentator import *
-from tasks.semantic.modules.ioueval import *
+from modules.segmentator import *
+from modules.ioueval import *
 
 
 class Trainer():
@@ -50,7 +50,7 @@ class Trainer():
                  "post_lr": 0}
 
     # get the data
-    parserPath = os.path.join(booger.TRAIN_PATH, "tasks", "semantic",  "dataset", self.DATA["name"], "parser.py")
+    parserPath = os.path.join("src/dataset", self.DATA["name"], "parser.py")
     parserModule = imp.load_source("parserModule", parserPath)
     self.parser = parserModule.Parser(root=self.datadir,
                                       train_sequences=self.DATA["split"]["train"],
@@ -83,9 +83,7 @@ class Trainer():
 
     # concatenate the encoder and the head
     with torch.no_grad():
-      self.model = Segmentator(self.ARCH,
-                               self.parser.get_n_classes(),
-                               self.path)
+      self.model = self.path
 
     # GPU?
     self.gpu = False
@@ -100,13 +98,13 @@ class Trainer():
       self.gpu = True
       self.n_gpus = 1
       self.model.cuda()
-    if torch.cuda.is_available() and torch.cuda.device_count() > 1:
-      print("Let's use", torch.cuda.device_count(), "GPUs!")
-      self.model = nn.DataParallel(self.model)   # spread in gpus
-      self.model = convert_model(self.model).cuda()  # sync batchnorm
-      self.model_single = self.model.module  # single model to get weight names
-      self.multi_gpu = True
-      self.n_gpus = torch.cuda.device_count()
+    # if torch.cuda.is_available() and torch.cuda.device_count() > 1:
+    #   print("Let's use", torch.cuda.device_count(), "GPUs!")
+    #   self.model = nn.DataParallel(self.model)   # spread in gpus
+    #   self.model = convert_model(self.model).cuda()  # sync batchnorm
+    #   self.model_single = self.model.module  # single model to get weight names
+    #   self.multi_gpu = True
+    #   self.n_gpus = torch.cuda.device_count()
 
     # loss
     if "loss" in self.ARCH["train"].keys() and self.ARCH["train"]["loss"] == "xentropy":
@@ -240,11 +238,11 @@ class Trainer():
       self.info["train_acc"] = acc
       self.info["train_iou"] = iou
 
-      # remember best iou and save checkpoint
-      if iou > best_train_iou:
-        print("Best mean iou in training set so far, save model!")
-        best_train_iou = iou
-        self.model_single.save_checkpoint(self.log, suffix="_train")
+    #   # remember best iou and save checkpoint
+    #   if iou > best_train_iou:
+    #     print("Best mean iou in training set so far, save model!")
+    #     best_train_iou = iou
+    #     self.model_single.save_checkpoint(self.log, suffix="_train")
 
       if epoch % self.ARCH["train"]["report_epoch"] == 0:
         # evaluate on validation set
@@ -262,30 +260,30 @@ class Trainer():
         self.info["valid_acc"] = acc
         self.info["valid_iou"] = iou
 
-        # remember best iou and save checkpoint
-        if iou > best_val_iou:
-          print("Best mean iou in validation so far, save model!")
-          print("*" * 80)
-          best_val_iou = iou
+        # # remember best iou and save checkpoint
+        # if iou > best_val_iou:
+        #   print("Best mean iou in validation so far, save model!")
+        #   print("*" * 80)
+        #   best_val_iou = iou
 
-          # save the weights!
-          self.model_single.save_checkpoint(self.log, suffix="")
+        #   # save the weights!
+        #   self.model_single.save_checkpoint(self.log, suffix="")
 
         print("*" * 80)
 
-        # save to log
-        Trainer.save_to_log(logdir=self.log,
-                            logger=self.tb_logger,
-                            info=self.info,
-                            epoch=epoch,
-                            w_summary=self.ARCH["train"]["save_summary"],
-                            model=self.model_single,
-                            img_summary=self.ARCH["train"]["save_scans"],
-                            imgs=rand_img)
+        # # save to log
+        # Trainer.save_to_log(logdir=self.log,
+        #                     logger=self.tb_logger,
+        #                     info=self.info,
+        #                     epoch=epoch,
+        #                     w_summary=self.ARCH["train"]["save_summary"],
+        #                     model=self.model_single,
+        #                     img_summary=self.ARCH["train"]["save_scans"],
+        #                     imgs=rand_img)
 
     print('Finished Training')
 
-    return
+    return self.model
 
   def train_epoch(self, train_loader, model, criterion, optimizer, epoch, evaluator, scheduler, color_fn, report=10, show_scans=False):
     batch_time = AverageMeter()
@@ -322,6 +320,7 @@ class Trainer():
         idx = torch.ones(self.n_gpus).cuda()
         loss.backward(idx)
       else:
+        loss.requires_grad_()
         loss.backward()
       optimizer.step()
 

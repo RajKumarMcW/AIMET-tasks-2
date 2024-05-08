@@ -19,6 +19,7 @@ import os
 import numpy as np
 
 from modules.segmentator import *
+from modules.trainer import *
 from postproc.KNN import KNN
 
 from aimet_torch.quantsim import QuantizationSimModel, load_encodings_to_sim
@@ -136,17 +137,27 @@ class User():
           sim = QuantizationSimModel(self.model, **kwargs)
           if "adaround" in self.cfg["optimization_config"]["quantization_configuration"]["techniques"]:
               sim.set_and_freeze_param_encodings(encoding_path=self.cfg['exports_path']+'/Adaround.encodings')
-              print("set_and_freeze_param_encodings finished!")
+              print("set_and_freeze_param_encodings finished!") 
+          sim.compute_encodings(self.infer_subset, forward_pass_callback_args=self.parser.get_valid_set())
           self.model=sim.model
-          sim.compute_encodings(self.infer_subset, forward_pass_callback_args=self.parser.get_train_set())
+          self.sim=sim
           sim.export(path=self.cfg['exports_path'], filename_prefix=self.cfg['exports_name'], dummy_input=self.dummy_input.cpu(),onnx_export_args=(aimet_torch.onnx_utils.OnnxExportApiArgs (opset_version=11)))
-          self.model.eval()
+        
+      self.model.eval()
     
 
-    
+  
 
   def infer(self):
     # do train set
+    if self.quantized:
+      if self.cfg['qat']:
+        print("QAT...........")
+        trainer = Trainer(self.ARCH, self.DATA, self.datadir, "src/log", self.sim.model)
+        self.sim.model = trainer.train()
+        self.sim.export(path=self.cfg['exports_path'], filename_prefix=self.cfg['qat_name'], dummy_input=self.dummy_input.cpu(),onnx_export_args=(aimet_torch.onnx_utils.OnnxExportApiArgs (opset_version=11)))
+        self.model= self.sim.model
+        
     self.infer_subset(self.model,loader=self.parser.get_train_set(),
                       to_orig_fn=self.parser.to_original)
 
@@ -163,7 +174,7 @@ class User():
 
   def infer_subset(self,model, loader, to_orig_fn=None):
     to_orig_fn=self.parser.to_original
-    # switch to evaluate mode
+    # switch to evaluate mode 
     self.model.eval()
     
 
@@ -228,3 +239,5 @@ class User():
         path = os.path.join(self.logdir, "sequences",
                             path_seq, "predictions", path_name)
         pred_np.tofile(path)
+
+  

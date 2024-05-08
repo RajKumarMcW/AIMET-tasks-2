@@ -1,0 +1,1360 @@
+{
+    "activation_encodings": {
+        "backbone.conv1a.1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 99.82168579101562,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.39145758748054504
+                }
+            }
+        },
+        "backbone.conv1b": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 7.099913597106934,
+                    "min": -13.016509056091309,
+                    "offset": -165,
+                    "scale": 0.0788879320025444
+                }
+            }
+        },
+        "backbone.fire23.0": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 99.82168579101562,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.39145758748054504
+                }
+            }
+        },
+        "backbone.fire23.1.activation": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 277.5935974121094,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 1.0886023044586182
+                }
+            }
+        },
+        "backbone.fire23.2.activation": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 160.422607421875,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.6291082501411438
+                }
+            }
+        },
+        "backbone.fire45.0": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 130.88304138183594,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.5132668018341064
+                }
+            }
+        },
+        "backbone.fire45.1.activation": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 8.668063163757324,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.033992405980825424
+                }
+            }
+        },
+        "backbone.fire45.2.activation": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.06868946552276611,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.0002693704445846379
+                }
+            }
+        },
+        "backbone.fire6789.0": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.04892778396606445,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.00019187366706319153
+                }
+            }
+        },
+        "backbone.fire6789.1.activation": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.013850309886038303,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 5.431493991636671e-05
+                }
+            }
+        },
+        "backbone.fire6789.2.activation": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.013120888732373714,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 5.145446630194783e-05
+                }
+            }
+        },
+        "backbone.fire6789.3.activation": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.013677779585123062,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 5.36383522558026e-05
+                }
+            }
+        },
+        "backbone.fire6789.4.activation": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.011482054367661476,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 4.502766387304291e-05
+                }
+            }
+        },
+        "decoder.firedec10.activation": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.01235047634691,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 4.843324131797999e-05
+                }
+            }
+        },
+        "decoder.firedec10.upconv": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.015064610168337822,
+                    "min": -0.014946918934583664,
+                    "offset": -127,
+                    "scale": 0.00011769227421609685
+                }
+            }
+        },
+        "decoder.firedec11.activation": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.020127080380916595,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 7.892972644185647e-05
+                }
+            }
+        },
+        "decoder.firedec11.upconv": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.05526283569633961,
+                    "min": -0.021324245259165764,
+                    "offset": -71,
+                    "scale": 0.00030034148949198425
+                }
+            }
+        },
+        "decoder.firedec12.activation": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 105.07966613769531,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.4120771288871765
+                }
+            }
+        },
+        "decoder.firedec12.upconv": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 79.38202667236328,
+                    "min": -90.7223129272461,
+                    "offset": -136,
+                    "scale": 0.6670758128166199
+                }
+            }
+        },
+        "decoder.firedec13.activation": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 51.16685485839844,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.20065432786941528
+                }
+            }
+        },
+        "decoder.firedec13.upconv": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 24.518545150756836,
+                    "min": -29.848661422729492,
+                    "offset": -140,
+                    "scale": 0.21320472657680511
+                }
+            }
+        },
+        "head.1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 48.4449348449707,
+                    "min": -40.42886734008789,
+                    "offset": -116,
+                    "scale": 0.34852471947669983
+                }
+            }
+        },
+        "module_add": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.07423502206802368,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.00029111772892065346
+                }
+            }
+        },
+        "module_add_1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 130.88304138183594,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.5132668018341064
+                }
+            }
+        },
+        "module_add_2": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 129.79736328125,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.5090092420578003
+                }
+            }
+        },
+        "module_add_3": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 11.786677360534668,
+                    "min": -11.694594383239746,
+                    "offset": -127,
+                    "scale": 0.0920834168791771
+                }
+            }
+        },
+        "module_backbone_fire23_1_activation_1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 132.1016082763672,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.5180455446243286
+                }
+            }
+        },
+        "module_backbone_fire23_1_activation_2": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 574.2060546875,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 2.251788377761841
+                }
+            }
+        },
+        "module_backbone_fire23_2_activation_1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 63.36473846435547,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.2484891712665558
+                }
+            }
+        },
+        "module_backbone_fire23_2_activation_2": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 130.88304138183594,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.5132668018341064
+                }
+            }
+        },
+        "module_backbone_fire45_1_activation_1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.9348447322845459,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.0036660577170550823
+                }
+            }
+        },
+        "module_backbone_fire45_1_activation_2": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.8135360479354858,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.003190337447449565
+                }
+            }
+        },
+        "module_backbone_fire45_2_activation_1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.04892778396606445,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.00019187366706319153
+                }
+            }
+        },
+        "module_backbone_fire45_2_activation_2": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.0192391499876976,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 7.544764957856387e-05
+                }
+            }
+        },
+        "module_backbone_fire6789_1_activation_1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.034594349563121796,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.00013566411507781595
+                }
+            }
+        },
+        "module_backbone_fire6789_1_activation_2": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.012978537939488888,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 5.089622572995722e-05
+                }
+            }
+        },
+        "module_backbone_fire6789_2_activation_1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.03452210873365402,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.0001353808183921501
+                }
+            }
+        },
+        "module_backbone_fire6789_2_activation_2": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.012155679054558277,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 4.766933125210926e-05
+                }
+            }
+        },
+        "module_backbone_fire6789_3_activation_1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.029788393527269363,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.00011681723117362708
+                }
+            }
+        },
+        "module_backbone_fire6789_3_activation_2": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.010656828060746193,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 4.179148163530044e-05
+                }
+            }
+        },
+        "module_backbone_fire6789_4_activation_1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.03058411180973053,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.00011993769294349477
+                }
+            }
+        },
+        "module_backbone_fire6789_4_activation_2": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.010731881484389305,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 4.208580867270939e-05
+                }
+            }
+        },
+        "module_cat": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 574.2060546875,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 2.251788377761841
+                }
+            }
+        },
+        "module_cat_1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 130.88304138183594,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.5132668018341064
+                }
+            }
+        },
+        "module_cat_10": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 65.3452377319336,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.2562558352947235
+                }
+            }
+        },
+        "module_cat_11": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 26.939912796020508,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.10564671456813812
+                }
+            }
+        },
+        "module_cat_2": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.9348447322845459,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.0036660577170550823
+                }
+            }
+        },
+        "module_cat_3": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.04892778396606445,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.00019187366706319153
+                }
+            }
+        },
+        "module_cat_4": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.034594349563121796,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.00013566411507781595
+                }
+            }
+        },
+        "module_cat_5": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.03452210873365402,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.0001353808183921501
+                }
+            }
+        },
+        "module_cat_6": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.029788393527269363,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.00011681723117362708
+                }
+            }
+        },
+        "module_cat_7": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.03058411180973053,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.00011993769294349477
+                }
+            }
+        },
+        "module_cat_8": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.03034304827451706,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.00011899234959855676
+                }
+            }
+        },
+        "module_cat_9": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.010933248326182365,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 4.2875482904491946e-05
+                }
+            }
+        },
+        "module_decoder_firedec10_activation_1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.015058130025863647,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 5.905149009777233e-05
+                }
+            }
+        },
+        "module_decoder_firedec10_activation_2": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.03034304827451706,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.00011899234959855676
+                }
+            }
+        },
+        "module_decoder_firedec10_activation_3": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.011343862861394882,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 4.44857359980233e-05
+                }
+            }
+        },
+        "module_decoder_firedec11_activation_1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.055369116365909576,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.00021713378373533487
+                }
+            }
+        },
+        "module_decoder_firedec11_activation_2": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.009999999776482582,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 3.9215687138494104e-05
+                }
+            }
+        },
+        "module_decoder_firedec11_activation_3": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.010933248326182365,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 4.2875482904491946e-05
+                }
+            }
+        },
+        "module_decoder_firedec12_activation_1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 79.0758285522461,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.31010130047798157
+                }
+            }
+        },
+        "module_decoder_firedec12_activation_2": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 31.534473419189453,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.12366460263729095
+                }
+            }
+        },
+        "module_decoder_firedec12_activation_3": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 65.3452377319336,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.2562558352947235
+                }
+            }
+        },
+        "module_decoder_firedec13_activation_1": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 46.63829040527344,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.1828952580690384
+                }
+            }
+        },
+        "module_decoder_firedec13_activation_2": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 20.579914093017578,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.08070554584264755
+                }
+            }
+        },
+        "module_decoder_firedec13_activation_3": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 26.939912796020508,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.10564671456813812
+                }
+            }
+        },
+        "module_softmax": {
+            "output": {
+                "0": {
+                    "bitwidth": 8,
+                    "dtype": "int",
+                    "is_symmetric": "False",
+                    "max": 0.9980466365814209,
+                    "min": 0.0,
+                    "offset": 0,
+                    "scale": 0.003913908265531063
+                }
+            }
+        }
+    },
+    "excluded_layers": [],
+    "param_encodings": {
+        "backbone.conv1a.0.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 1.869581699371338,
+                "min": -1.8843028545379639,
+                "offset": -128,
+                "scale": 0.014721116051077843
+            }
+        ],
+        "backbone.conv1b.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.92036372423172,
+                "min": -0.9276106953620911,
+                "offset": -128,
+                "scale": 0.0072469585575163364
+            }
+        ],
+        "backbone.fire23.1.expand1x1.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.7511627078056335,
+                "min": -0.7570773959159851,
+                "offset": -128,
+                "scale": 0.005914667155593634
+            }
+        ],
+        "backbone.fire23.1.expand3x3.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 1.6485919952392578,
+                "min": -1.6615729331970215,
+                "offset": -128,
+                "scale": 0.01298103854060173
+            }
+        ],
+        "backbone.fire23.1.squeeze.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 1.361209750175476,
+                "min": -1.3719278573989868,
+                "offset": -128,
+                "scale": 0.010718186385929585
+            }
+        ],
+        "backbone.fire23.2.expand1x1.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.6950081586837769,
+                "min": -0.7004806995391846,
+                "offset": -128,
+                "scale": 0.0054725054651498795
+            }
+        ],
+        "backbone.fire23.2.expand3x3.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.5286409258842468,
+                "min": -0.532803475856781,
+                "offset": -128,
+                "scale": 0.004162527155131102
+            }
+        ],
+        "backbone.fire23.2.squeeze.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.9175148606300354,
+                "min": -0.924739420413971,
+                "offset": -128,
+                "scale": 0.007224526721984148
+            }
+        ],
+        "backbone.fire45.1.expand1x1.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.04261116310954094,
+                "min": -0.04294668510556221,
+                "offset": -128,
+                "scale": 0.00033552097738720477
+            }
+        ],
+        "backbone.fire45.1.expand3x3.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.014369242824614048,
+                "min": -0.014482387341558933,
+                "offset": -128,
+                "scale": 0.00011314365110592917
+            }
+        ],
+        "backbone.fire45.1.squeeze.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.02166682854294777,
+                "min": -0.02183743193745613,
+                "offset": -128,
+                "scale": 0.00017060493701137602
+            }
+        ],
+        "backbone.fire45.2.expand1x1.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.04216284304857254,
+                "min": -0.04249483346939087,
+                "offset": -128,
+                "scale": 0.00033199088647961617
+            }
+        ],
+        "backbone.fire45.2.expand3x3.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.01427746843546629,
+                "min": -0.014389890246093273,
+                "offset": -128,
+                "scale": 0.0001124210175476037
+            }
+        ],
+        "backbone.fire45.2.squeeze.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.01550559513270855,
+                "min": -0.01562768593430519,
+                "offset": -128,
+                "scale": 0.0001220912963617593
+            }
+        ],
+        "backbone.fire6789.1.expand1x1.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.0347842201590538,
+                "min": -0.03505811095237732,
+                "offset": -128,
+                "scale": 0.0002738914918154478
+            }
+        ],
+        "backbone.fire6789.1.expand3x3.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.011593910865485668,
+                "min": -0.011685200966894627,
+                "offset": -128,
+                "scale": 9.129063255386427e-05
+            }
+        ],
+        "backbone.fire6789.1.squeeze.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.0150610925629735,
+                "min": -0.015179683454334736,
+                "offset": -128,
+                "scale": 0.00011859127698699012
+            }
+        ],
+        "backbone.fire6789.2.expand1x1.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.034784331917762756,
+                "min": -0.03505822271108627,
+                "offset": -128,
+                "scale": 0.0002738923649303615
+            }
+        ],
+        "backbone.fire6789.2.expand3x3.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.011593925766646862,
+                "min": -0.01168521586805582,
+                "offset": -128,
+                "scale": 9.12907489691861e-05
+            }
+        ],
+        "backbone.fire6789.2.squeeze.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.012297747656702995,
+                "min": -0.012394580990076065,
+                "offset": -128,
+                "scale": 9.683266398496926e-05
+            }
+        ],
+        "backbone.fire6789.3.expand1x1.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.03012116625905037,
+                "min": -0.030358340591192245,
+                "offset": -128,
+                "scale": 0.00023717453586868942
+            }
+        ],
+        "backbone.fire6789.3.expand3x3.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.010042117908596992,
+                "min": -0.010121189057826996,
+                "offset": -128,
+                "scale": 7.90717895142734e-05
+            }
+        ],
+        "backbone.fire6789.3.squeeze.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.012298070825636387,
+                "min": -0.012394906021654606,
+                "offset": -128,
+                "scale": 9.683520329417661e-05
+            }
+        ],
+        "backbone.fire6789.4.expand1x1.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.0301219392567873,
+                "min": -0.030359121039509773,
+                "offset": -128,
+                "scale": 0.0002371806331211701
+            }
+        ],
+        "backbone.fire6789.4.expand3x3.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.010042142122983932,
+                "min": -0.010121213272213936,
+                "offset": -128,
+                "scale": 7.907197868917137e-05
+            }
+        ],
+        "backbone.fire6789.4.squeeze.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.0106510566547513,
+                "min": -0.010734924115240574,
+                "offset": -128,
+                "scale": 8.386659465031698e-05
+            }
+        ],
+        "decoder.firedec10.expand1x1.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.030120020732283592,
+                "min": -0.03035718761384487,
+                "offset": -128,
+                "scale": 0.00023716552823316306
+            }
+        ],
+        "decoder.firedec10.expand3x3.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.010054957121610641,
+                "min": -0.010134130716323853,
+                "offset": -128,
+                "scale": 7.91728962212801e-05
+            }
+        ],
+        "decoder.firedec10.squeeze.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.012663165107369423,
+                "min": -0.012762874364852905,
+                "offset": -128,
+                "scale": 9.970995597541332e-05
+            }
+        ],
+        "decoder.firedec10.upconv.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.012663159519433975,
+                "min": -0.012762868776917458,
+                "offset": -128,
+                "scale": 9.970991231966764e-05
+            }
+        ],
+        "decoder.firedec11.expand1x1.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.042402319610118866,
+                "min": -0.04273619502782822,
+                "offset": -128,
+                "scale": 0.00033387652365490794
+            }
+        ],
+        "decoder.firedec11.expand3x3.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.023831147700548172,
+                "min": -0.024018794298171997,
+                "offset": -128,
+                "scale": 0.00018764683045446873
+            }
+        ],
+        "decoder.firedec11.squeeze.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.018025031313300133,
+                "min": -0.018166961148381233,
+                "offset": -128,
+                "scale": 0.00014192938397172838
+            }
+        ],
+        "decoder.firedec11.upconv.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.018389200791716576,
+                "min": -0.018533999100327492,
+                "offset": -128,
+                "scale": 0.00014479686797130853
+            }
+        ],
+        "decoder.firedec12.expand1x1.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.3783705234527588,
+                "min": -0.3813498020172119,
+                "offset": -128,
+                "scale": 0.002979295328259468
+            }
+        ],
+        "decoder.firedec12.expand3x3.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.574419379234314,
+                "min": -0.5789424180984497,
+                "offset": -128,
+                "scale": 0.004522987641394138
+            }
+        ],
+        "decoder.firedec12.squeeze.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.7537391185760498,
+                "min": -0.759674072265625,
+                "offset": -128,
+                "scale": 0.005934953689575195
+            }
+        ],
+        "decoder.firedec12.upconv.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.7538183927536011,
+                "min": -0.759753942489624,
+                "offset": -128,
+                "scale": 0.005935577675700188
+            }
+        ],
+        "decoder.firedec13.expand1x1.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.9329907894134521,
+                "min": -0.9403371810913086,
+                "offset": -128,
+                "scale": 0.007346384227275848
+            }
+        ],
+        "decoder.firedec13.expand3x3.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.45817986130714417,
+                "min": -0.46178755164146423,
+                "offset": -128,
+                "scale": 0.0036077152471989393
+            }
+        ],
+        "decoder.firedec13.squeeze.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 1.272878885269165,
+                "min": -1.2829015254974365,
+                "offset": -128,
+                "scale": 0.010022668167948723
+            }
+        ],
+        "decoder.firedec13.upconv.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 1.2591913938522339,
+                "min": -1.2691062688827515,
+                "offset": -128,
+                "scale": 0.009914892725646496
+            }
+        ],
+        "head.1.weight": [
+            {
+                "bitwidth": 8,
+                "dtype": "int",
+                "is_symmetric": "True",
+                "max": 0.7304782867431641,
+                "min": -0.7362301349639893,
+                "offset": -128,
+                "scale": 0.005751797929406166
+            }
+        ]
+    },
+    "quantizer_args": {
+        "activation_bitwidth": 8,
+        "dtype": "int",
+        "is_symmetric": true,
+        "param_bitwidth": 8,
+        "per_channel_quantization": false,
+        "quant_scheme": "post_training_tf_enhanced"
+    },
+    "version": "0.6.1"
+}
