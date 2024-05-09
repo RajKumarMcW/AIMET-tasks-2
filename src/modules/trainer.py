@@ -246,6 +246,7 @@ class Trainer():
 
       if epoch % self.ARCH["train"]["report_epoch"] == 0:
         # evaluate on validation set
+        print("Epoch:",epoch)
         print("*" * 80)
         acc, iou, loss, rand_img = self.validate(val_loader=self.parser.get_valid_set(),
                                                  model=self.model,

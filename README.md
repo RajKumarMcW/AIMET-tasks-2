@@ -110,13 +110,19 @@ Kitti Pretrained
 
   - RangeNet Squeezeseg
     - FP32 
-        - Acc avg: 0.724
-        - IoU avg: 0.266
-    - Quantized PTQ
-        - Acc avg: 0.526
-        - IoU avg: 0.188
-    - Quantized QAT
-        - Acc avg 0.757
-        - IoU avg 0.263
+        - Acc avg: 0.761
+        - IoU avg: 0.305
+    - Quantized CLE PTQ
+        - Acc avg: 0.421
+        - IoU avg: 0.158
+    - Quantized CLE+AdaRound PTQ
+        - Acc avg: 0.430
+        - IoU avg: 0.157
+    - Quantized QAT(5 epoch)
+        - Acc avg 0.602
+        - IoU avg 0.197
+    - Quantized QAT(10 epoch)
+        - Acc avg 0.554
+        - IoU avg 0.174
         
 ---

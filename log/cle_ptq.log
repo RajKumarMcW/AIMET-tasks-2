@@ -1,0 +1,215 @@
+2024-05-09 12:07:22,069 - root - INFO - AIMET
+{'config': 'config/ptq_5x64x2048.json'}
+Opening arch config file from artifacts/squeezeseg
+Opening data config file from artifacts/squeezeseg
+model folder exists! Using model from artifacts/squeezeseg
+Sequences folder exists! Using sequences from /media/ava/DATA/aleesha/datasets/sequences
+Using 19130 scans from sequences [0, 1, 2, 3, 4, 5, 6, 7, 9, 10]
+Sequences folder exists! Using sequences from /media/ava/DATA/aleesha/datasets/sequences
+Using 4071 scans from sequences [8]
+Sequences folder exists! Using sequences from /media/ava/DATA/aleesha/datasets/sequences
+Using 20351 scans from sequences [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+Using SqueezeNet Backbone
+Depth of backbone input =  5
+Original OS:  16
+New OS:  16
+Strides:  [2, 2, 2, 2]
+Decoder original OS:  16
+Decoder new OS:  16
+Decoder strides:  [2, 2, 2, 2]
+Total number of parameters:  915540
+Total number of parameters requires_grad:  915540
+Param encoder  724032
+Param decoder  179968
+Param head  11540
+Successfully loaded model backbone weights
+Successfully loaded model decoder weights
+Successfully loaded model head weights
+Infering in device:  cuda
+
+PTQ:
+
+Model Validate 1
+2024-05-09 12:07:25,829 - Utils - INFO - Running validator check <function validate_for_reused_modules at 0x7f5922b0fa60>
+2024-05-09 12:07:26,061 - Utils - ERROR - The following modules are used more than once in the model: ['backbone.fire23.1.activation', 'backbone.fire23.2.activation', 'backbone.fire45.1.activation', 'backbone.fire45.2.activation', 'backbone.fire6789.1.activation', 'backbone.fire6789.2.activation', 'backbone.fire6789.3.activation', 'backbone.fire6789.4.activation', 'backbone.dropout', 'decoder.firedec10.activation', 'decoder.firedec11.activation', 'decoder.firedec12.activation', 'decoder.firedec13.activation']
+AIMET features are not designed to work with reused modules. Please redefine your model to use distinct modules for each instance.
+2024-05-09 12:07:26,062 - Utils - INFO - Running validator check <function validate_for_missing_modules at 0x7f5922b0faf0>
+2024-05-09 12:07:26,334 - Utils - ERROR - Functional ops that are not marked as math invariant were found in the model. AIMET features will not work properly for such ops.
+Consider the following choices: 
+1. Redefine as a torch.nn.Module in the class definition.
+2. The op can remain as a functional op due to being math invariant, but the op type has not been added to ConnectedGraph.math_invariant_types set. 
+Add an entry to ignore the op by importing the set and adding the op type:
+
+	from aimet_torch.meta.connectedgraph import ConnectedGraph
+	ConnectedGraph.math_invariant_types.add(...)
+
+The following functional ops were found. The parent module is named for ease of locating the ops within the model definition.
+	Concat_36            parent module: Segmentator.backbone.fire23.1
+	Concat_45            parent module: Segmentator.backbone.fire23.2
+	Concat_57            parent module: Segmentator.backbone.fire45.1
+	Concat_66            parent module: Segmentator.backbone.fire45.2
+	Concat_78            parent module: Segmentator.backbone.fire6789.1
+	Concat_87            parent module: Segmentator.backbone.fire6789.2
+	Concat_96            parent module: Segmentator.backbone.fire6789.3
+	Concat_105           parent module: Segmentator.backbone.fire6789.4
+	Concat_120           parent module: Segmentator.decoder.firedec10
+	Add_123              parent module: Segmentator.decoder
+	Concat_134           parent module: Segmentator.decoder.firedec11
+	Add_137              parent module: Segmentator.decoder
+	Concat_148           parent module: Segmentator.decoder.firedec12
+	Add_151              parent module: Segmentator.decoder
+	Concat_162           parent module: Segmentator.decoder.firedec13
+	Add_165              parent module: Segmentator.decoder
+	softmax_171          parent module: Segmentator
+
+2024-05-09 12:07:26,334 - Utils - INFO - The following validator checks failed:
+2024-05-09 12:07:26,334 - Utils - INFO - 	<function validate_for_reused_modules at 0x7f5922b0fa60>
+2024-05-09 12:07:26,334 - Utils - INFO - 	<function validate_for_missing_modules at 0x7f5922b0faf0>
+
+Prepare Model
+2024-05-09 12:07:26,348 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire23_1_activation_1} 
+2024-05-09 12:07:26,349 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire23_1_activation_2} 
+2024-05-09 12:07:26,349 - Quant - INFO - Functional         : Adding new module for node: {cat} 
+2024-05-09 12:07:26,349 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire23_2_activation_1} 
+2024-05-09 12:07:26,349 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire23_2_activation_2} 
+2024-05-09 12:07:26,349 - Quant - INFO - Functional         : Adding new module for node: {cat_1} 
+2024-05-09 12:07:26,349 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire45_1_activation_1} 
+2024-05-09 12:07:26,350 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire45_1_activation_2} 
+2024-05-09 12:07:26,350 - Quant - INFO - Functional         : Adding new module for node: {cat_2} 
+2024-05-09 12:07:26,350 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire45_2_activation_1} 
+2024-05-09 12:07:26,350 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire45_2_activation_2} 
+2024-05-09 12:07:26,350 - Quant - INFO - Functional         : Adding new module for node: {cat_3} 
+2024-05-09 12:07:26,351 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_dropout_1} 
+2024-05-09 12:07:26,351 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_1_activation_1} 
+2024-05-09 12:07:26,351 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_1_activation_2} 
+2024-05-09 12:07:26,351 - Quant - INFO - Functional         : Adding new module for node: {cat_4} 
+2024-05-09 12:07:26,351 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_2_activation_1} 
+2024-05-09 12:07:26,351 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_2_activation_2} 
+2024-05-09 12:07:26,351 - Quant - INFO - Functional         : Adding new module for node: {cat_5} 
+2024-05-09 12:07:26,352 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_3_activation_1} 
+2024-05-09 12:07:26,352 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_3_activation_2} 
+2024-05-09 12:07:26,352 - Quant - INFO - Functional         : Adding new module for node: {cat_6} 
+2024-05-09 12:07:26,352 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_4_activation_1} 
+2024-05-09 12:07:26,352 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_fire6789_4_activation_2} 
+2024-05-09 12:07:26,352 - Quant - INFO - Functional         : Adding new module for node: {cat_7} 
+2024-05-09 12:07:26,352 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {backbone_dropout_2} 
+2024-05-09 12:07:26,352 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec10_activation_1} 
+2024-05-09 12:07:26,353 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec10_activation_2} 
+2024-05-09 12:07:26,353 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec10_activation_3} 
+2024-05-09 12:07:26,353 - Quant - INFO - Functional         : Adding new module for node: {cat_8} 
+2024-05-09 12:07:26,353 - Quant - INFO - Functional         : Adding new module for node: {add} 
+2024-05-09 12:07:26,353 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec11_activation_1} 
+2024-05-09 12:07:26,353 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec11_activation_2} 
+2024-05-09 12:07:26,353 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec11_activation_3} 
+2024-05-09 12:07:26,354 - Quant - INFO - Functional         : Adding new module for node: {cat_9} 
+2024-05-09 12:07:26,354 - Quant - INFO - Functional         : Adding new module for node: {add_1} 
+2024-05-09 12:07:26,354 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec12_activation_1} 
+2024-05-09 12:07:26,354 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec12_activation_2} 
+2024-05-09 12:07:26,354 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec12_activation_3} 
+2024-05-09 12:07:26,354 - Quant - INFO - Functional         : Adding new module for node: {cat_10} 
+2024-05-09 12:07:26,354 - Quant - INFO - Functional         : Adding new module for node: {add_2} 
+2024-05-09 12:07:26,354 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec13_activation_1} 
+2024-05-09 12:07:26,355 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec13_activation_2} 
+2024-05-09 12:07:26,355 - Quant - INFO - Reused/Duplicate   : Adding new module for node: {decoder_firedec13_activation_3} 
+2024-05-09 12:07:26,355 - Quant - INFO - Functional         : Adding new module for node: {cat_11} 
+2024-05-09 12:07:26,355 - Quant - INFO - Functional         : Adding new module for node: {add_3} 
+2024-05-09 12:07:26,355 - Quant - INFO - Functional         : Adding new module for node: {softmax} 
+
+Model Validate 2
+2024-05-09 12:07:26,359 - Utils - INFO - Running validator check <function validate_for_reused_modules at 0x7f5922b0fa60>
+2024-05-09 12:07:26,378 - Utils - INFO - Running validator check <function validate_for_missing_modules at 0x7f5922b0faf0>
+2024-05-09 12:07:26,718 - Utils - INFO - All validation checks passed.
+
+CLE...........
+2024-05-09 12:07:30,749 - Quant - INFO - High Bias folding is not supported for models without BatchNorm Layers
+
+BN...........
+
+QuantizationSIM
+2024-05-09 12:07:31,424 - Quant - INFO - No config file provided, defaulting to config file at /home/ava/raj/envv/lib/python3.8/site-packages/aimet_common/quantsim_config/default_config.json
+2024-05-09 12:07:31,452 - Quant - INFO - Unsupported op type Squeeze
+2024-05-09 12:07:31,452 - Quant - INFO - Unsupported op type Pad
+2024-05-09 12:07:31,452 - Quant - INFO - Unsupported op type Mean
+2024-05-09 12:07:31,459 - Utils - INFO - ...... subset to store [Conv_24, Relu_25]
+2024-05-09 12:07:31,459 - Utils - INFO - ...... subset to store [Conv_28, Relu_29]
+2024-05-09 12:07:31,459 - Utils - INFO - ...... subset to store [Conv_30, Relu_31]
+2024-05-09 12:07:31,459 - Utils - INFO - ...... subset to store [Conv_35, Relu_36]
+2024-05-09 12:07:31,459 - Utils - INFO - ...... subset to store [Conv_37, Relu_38]
+2024-05-09 12:07:31,459 - Utils - INFO - ...... subset to store [Conv_45, Relu_46]
+2024-05-09 12:07:31,459 - Utils - INFO - ...... subset to store [Conv_47, Relu_48]
+2024-05-09 12:07:31,459 - Utils - INFO - ...... subset to store [Conv_52, Relu_53]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_54, Relu_55]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_62, Relu_63]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_64, Relu_65]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_69, Relu_70]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_71, Relu_72]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_76, Relu_77]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_78, Relu_79]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_83, Relu_84]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_85, Relu_86]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_92, Relu_93]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_96, Relu_97]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_103, Relu_104]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_107, Relu_108]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_114, Relu_115]
+2024-05-09 12:07:31,460 - Utils - INFO - ...... subset to store [Conv_118, Relu_119]
+2024-05-09 12:07:31,461 - Utils - INFO - ...... subset to store [Conv_125, Relu_126]
+2024-05-09 12:07:31,461 - Utils - INFO - ...... subset to store [Conv_129, Relu_130]
+2024-05-09 12:07:31,461 - Utils - INFO - ...... subset to store [Conv_131, Relu_132]
+2024-05-09 12:07:31,461 - Utils - INFO - ...... subset to store [Conv_120, Relu_121]
+2024-05-09 12:07:31,461 - Utils - INFO - ...... subset to store [Conv_109, Relu_110]
+2024-05-09 12:07:31,461 - Utils - INFO - ...... subset to store [Conv_98, Relu_99]
+2024-05-09 12:07:31,461 - Utils - INFO - ...... subset to store [Conv_87, Relu_88]
+2024-05-09 12:07:31,461 - Utils - INFO - ...... subset to store [Conv_80, Relu_81]
+2024-05-09 12:07:31,461 - Utils - INFO - ...... subset to store [Conv_73, Relu_74]
+2024-05-09 12:07:31,461 - Utils - INFO - ...... subset to store [Conv_66, Relu_67]
+2024-05-09 12:07:31,461 - Utils - INFO - ...... subset to store [Conv_56, Relu_57]
+2024-05-09 12:07:31,461 - Utils - INFO - ...... subset to store [Conv_49, Relu_50]
+2024-05-09 12:07:31,461 - Utils - INFO - ...... subset to store [Conv_39, Relu_40]
+2024-05-09 12:07:31,461 - Utils - INFO - ...... subset to store [Conv_32, Relu_33]
+2024-05-09 12:07:31,461 - Quant - INFO - Selecting DefaultOpInstanceConfigGenerator to compute the specialized config. hw_version:default
+
+Compute Encoding
+/home/ava/raj/envv/lib/python3.8/site-packages/torch/fx/graph.py:606: UserWarning: Attempted to insert a call_module Node with no underlying reference in the owning GraphModule! Call GraphModule.add_submodule to add the necessary submodule
+  warnings.warn("Attempted to insert a call_module Node with "
+
+PTQ Inference:
+
+Finished Infering
+Ignoring xentropy class  0  in IoU evaluation
+
+Evaluating sequences: 
+Validation set:
+Acc avg 0.421
+IoU avg 0.158
+IoU class 1 [car] = 0.492
+IoU class 2 [bicycle] = 0.088
+IoU class 3 [motorcycle] = 0.034
+IoU class 4 [truck] = 0.005
+IoU class 5 [other-vehicle] = 0.008
+IoU class 6 [person] = 0.033
+IoU class 7 [bicyclist] = 0.082
+IoU class 8 [motorcyclist] = 0.000
+IoU class 9 [road] = 0.639
+IoU class 10 [parking] = 0.068
+IoU class 11 [sidewalk] = 0.145
+IoU class 12 [other-ground] = 0.002
+IoU class 13 [building] = 0.300
+IoU class 14 [fence] = 0.037
+IoU class 15 [vegetation] = 0.362
+IoU class 16 [trunk] = 0.109
+IoU class 17 [terrain] = 0.363
+IoU class 18 [pole] = 0.180
+IoU class 19 [traffic-sign] = 0.060
+********************************************************************************
+below can be copied straight for paper table
+0.492,0.088,0.034,0.005,0.008,0.033,0.082,0.000,0.639,0.068,0.145,0.002,0.300,0.037,0.362,0.109,0.363,0.180,0.060,0.158,0.421
+
+Exporting Model
+2024-05-09 12:13:45,183 - Utils - INFO - successfully created onnx model with 106/107 node names updated
+2024-05-09 12:13:45,194 - Quant - INFO - layer with name {backbone.dropout} not found in model, not an issue; skip and continue 
+2024-05-09 12:13:45,203 - Quant - INFO - layer with name {module_backbone_dropout_1} not found in model, not an issue; skip and continue 
+2024-05-09 12:13:45,206 - Quant - INFO - layer with name {module_backbone_dropout_2} not found in model, not an issue; skip and continue 
+2024-05-09 12:13:45,213 - Quant - INFO - layer with name {decoder.dropout} not found in model, not an issue; skip and continue 
+2024-05-09 12:13:45,217 - Quant - INFO - layer with name {head.0} not found in model, not an issue; skip and continue 
+2024-05-09 12:13:45,218 - Quant - INFO - Layers excluded from quantization: []
